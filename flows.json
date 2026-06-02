@@ -1,0 +1,362 @@
+[
+    {
+        "id": "6835bfa401e18e9c",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9c04d4a185258543",
+        "type": "inject",
+        "z": "6835bfa401e18e9c",
+        "name": "Start Simulation",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 270,
+        "y": 100,
+        "wires": [
+            [
+                "4850c0fce1b375a4"
+            ]
+        ]
+    },
+    {
+        "id": "4850c0fce1b375a4",
+        "type": "function",
+        "z": "6835bfa401e18e9c",
+        "name": "Random Joint & Temp Data",
+        "func": "// สุ่มค่า Joint Movement ระหว่าง 2.0 ถึง 6.0 มม.\nvar jointMovement = parseFloat((Math.random() * (6.0 - 2.0) + 2.0).toFixed(2));\n\n// สุ่มค่าอุณหภูมิผิววัสดุระหว่าง 30 ถึง 55 องศาเซลเซียส\nvar temperature = parseFloat((Math.random() * (55 - 30) + 30).toFixed(1));\n\n// แยกส่งข้อมูลเป็น 2 เส้นพร้อมระบุกลุ่มข้อมูล (Topic) เพื่อให้กราฟจำแนกเส้นได้\nvar msg1 = { payload: jointMovement, topic: \"Joint Displacement (mm)\" };\nvar msg2 = { payload: temperature, topic: \"Substrate Temp (°C)\" };\n\n// ส่งข้อมูลออกพร้อมกันทั้ง 2 ค่า\nreturn [msg1, msg2];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 100,
+        "wires": [
+            [
+                "0e17008cf7391b0f",
+                "d9cb4d3b823d1d79",
+                "2f33be9e69d93824",
+                "a0729b22b87179d1"
+            ],
+            [
+                "d9cb4d3b823d1d79",
+                "2f33be9e69d93824",
+                "a0729b22b87179d1"
+            ]
+        ]
+    },
+    {
+        "id": "0e17008cf7391b0f",
+        "type": "debug",
+        "z": "6835bfa401e18e9c",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "d9cb4d3b823d1d79",
+        "type": "ui-chart",
+        "z": "6835bfa401e18e9c",
+        "group": "28a7c77e996b359f",
+        "name": "",
+        "label": "Real-Time Facade Structural Monitoring",
+        "order": 1,
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "Time",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "Measured Value (mm / °C)",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "60",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 4,
+        "showLegend": true,
+        "removeOlder": "5",
+        "removeOlderUnit": "60",
+        "removeOlderPoints": "",
+        "colors": [
+            "#5900ff",
+            "#ff9896",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "6",
+        "height": "10",
+        "className": "",
+        "interpolation": "linear",
+        "x": 920,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2f33be9e69d93824",
+        "type": "mqtt out",
+        "z": "6835bfa401e18e9c",
+        "name": "",
+        "topic": "dow/facade/joint_monitor",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "8d5fb95a918be01f",
+        "x": 870,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "a0729b22b87179d1",
+        "type": "function",
+        "z": "6835bfa401e18e9c",
+        "name": "Safety Analysis (DOWSIL 795)",
+        "func": "// กำหนดค่ามาตรฐานร่องเดิม (Initial Joint Width) เช่น 10 มม.\nvar initialWidth = 10.0;\n\n// ค่าระยะยืดตัวสูงสุดที่ยอมรับได้ (Elongation at 400%)\nvar maxSafeElongation = 40.0;\n\n// รับค่าระยะขยับตัวปัจจุบันจากเซนเซอร์จำลอง\nvar currentMovement = msg.payload.joint_mm;\n\n// คำนวณสถานะความปลอดภัย\nif (currentMovement >= maxSafeElongation) {\n    msg.payload = \"CRITICAL: Movement exceeds 400% limit (\" + currentMovement + \" mm). Structural risk detected!\";\n    msg.status = \"danger\";\n} else if (currentMovement >= (maxSafeElongation * 0.8)) {\n    msg.payload = \"WARNING: Movement approaching 400% limit. Inspect sealant integrity.\";\n    msg.status = \"warning\";\n} else {\n    msg.payload = \"NORMAL: System within safe operational limits.\";\n    msg.status = \"success\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 240,
+        "wires": [
+            [
+                "e33bb94075366145"
+            ]
+        ]
+    },
+    {
+        "id": "e33bb94075366145",
+        "type": "ui-notification",
+        "z": "6835bfa401e18e9c",
+        "ui": "b0a2066d9dfe8a1e",
+        "position": "top right",
+        "colorDefault": true,
+        "color": "#000000",
+        "displayTime": "8",
+        "showCountdown": true,
+        "outputs": 1,
+        "allowDismiss": true,
+        "dismissText": "Close",
+        "allowConfirm": false,
+        "confirmText": "Confirm",
+        "raw": false,
+        "className": "",
+        "name": "",
+        "x": 1170,
+        "y": 240,
+        "wires": [
+            [
+                "1656be2a1bfd3d87"
+            ]
+        ]
+    },
+    {
+        "id": "1656be2a1bfd3d87",
+        "type": "ui-text",
+        "z": "6835bfa401e18e9c",
+        "group": "28a7c77e996b359f",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "DOWSIL 795 Material Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "x": 1460,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "28a7c77e996b359f",
+        "type": "ui-group",
+        "name": "Group 1",
+        "page": "a7b18d701f169086",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "8d5fb95a918be01f",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.emqx.io",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "b0a2066d9dfe8a1e",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "a7b18d701f169086",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "b0a2066d9dfe8a1e",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "f66aebcd7d8f7073",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "f66aebcd7d8f7073",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "88c799218ae48f55",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]
