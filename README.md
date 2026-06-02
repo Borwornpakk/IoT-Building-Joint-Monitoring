@@ -63,7 +63,6 @@ By setting a warning threshold at 80% of the critical limit, the system enables 
 
 ## Proposed Results & Dashboard Visualization
 
-<img width="650" height="600" alt="Screenshot 2026-06-02 113024" src="https://github.com/user-attachments/assets/973c662a-b627-4cd3-95b7-509354490e9e" />
 
 
 The system processes incoming telemetry and visualizes it on a centralized digital twin dashboard.
