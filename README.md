@@ -4,7 +4,7 @@ IoT-Based Joint Movement Monitoring System for Building Facades: An applied engi
 ## Project Title
 IoT-Based Structural Health Monitoring: Real-Time Joint Movement Analysis for Building Facades
 
-<img width="650" height="600" alt="Screenshot 2026-06-02 105232" src="https://github.com/user-attachments/assets/bbb3f7aa-bf08-4413-80fe-243bbb551991" />
+https://github.com/user-attachments/assets/8cd05003-4eb0-45cb-8ea7-597d939ae8e3
 
 ## Abstract / Introduction
 
@@ -35,11 +35,30 @@ This case study demonstrates a lightweight, industrial IoT (IIoT) architecture d
 
 To bridge the gap between material science and digital monitoring, I implemented a safety evaluation logic based on the DOWSIL™ 795 technical specifications. The system calculates the real-time elongation percentage and triggers alerts based on the material's ultimate capacity.
 
+```javascript
 // Define Engineering Constraints (Based on DOWSIL™ 795 Datasheet)
 const initialWidth = 10.0;    // Standard design joint width (mm)
 const criticalLimit = 40.0;   // 400% Elongation limit before failure
 
+// Real-time Safety Evaluation
+let currentMovement = msg.payload.joint_mm;
 
+if (currentMovement >= criticalLimit) {
+    msg.payload = "CRITICAL: Potential Sealant Failure Detected!";
+    msg.status = "danger"; // Triggers Red Alert on Dashboard
+} else if (currentMovement >= (criticalLimit * 0.8)) {
+    msg.payload = "WARNING: Approaching Elongation Limit.";
+    msg.status = "warning"; // Triggers Amber Alert
+} else {
+    msg.payload = "SAFE: Operational movement within limits.";
+    msg.status = "success"; // Normal Status
+}
+
+return msg;ing Javascript.js…]()
+```
+The logic uses a 10mm baseline joint width to monitor the 400% elongation threshold (40mm movement), which is the critical point for DOWSIL™ 795 before reaching its ultimate elongation capacity.
+
+By setting a warning threshold at 80% of the critical limit, the system enables facility managers to perform inspections before any physical damage occurs.
 
 
 ## Proposed Results & Dashboard Visualization
