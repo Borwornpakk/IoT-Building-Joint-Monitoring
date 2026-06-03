@@ -1,0 +1,352 @@
+[
+    {
+        "id": "bf0b092fe846c588",
+        "type": "tab",
+        "label": "Facade Joint Monitor",
+        "disabled": false,
+        "info": "IoT-Based Joint Movement Monitoring System for Building Facades\nSealant: DOWSIL 795 - Ultimate elongation 400%-600%"
+    },
+    {
+        "id": "7c5738d0552690b8",
+        "type": "inject",
+        "z": "bf0b092fe846c588",
+        "name": "Data Simulator (2s)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 440,
+        "y": 220,
+        "wires": [
+            [
+                "25a6a934fb28e3ee"
+            ]
+        ]
+    },
+    {
+        "id": "25a6a934fb28e3ee",
+        "type": "function",
+        "z": "bf0b092fe846c588",
+        "name": "Generate Random Sensor Data",
+        "func": "// DOWSIL 795 — ใช้ร่องมาตรฐาน 10mm\nconst JOINT_WIDTH_MM = 10;   // ความกว้างร่องเริ่มต้น\nconst ELONG_400_MM = 40;   // ยืดได้สูงสุดที่ 400% = 40mm\nconst ELONG_600_MM = 60;   // ยืดได้สูงสุดที่ 600% = 60mm\nconst ALARM_MM = 40;   // Alarm ที่ 400% = 40mm\nconst WARN_MM = 24;   // Warning ที่ 240% = 24mm (60% ของ limit)\n\nconst sensors = [\n  { id: 'SNS-F01-N', zone: 'North', floor: 1 },\n  { id: 'SNS-F03-E', zone: 'East', floor: 3 },\n  { id: 'SNS-F05-S', zone: 'South', floor: 5 },\n  { id: 'SNS-F07-W', zone: 'West', floor: 7 },\n];\n\nfunction rnd(min, max) {\n  return parseFloat((Math.random() * (max - min) + min).toFixed(2));\n}\n\nconst now = new Date();\nconst hourAngle = (now.getHours() + now.getMinutes() / 60) / 24 * 2 * Math.PI;\nconst baseTempC = 28 + 12 * Math.sin(hourAngle - Math.PI / 2);\n\nconst readings = sensors.map(s => {\n  const tempC = rnd(Math.max(15, baseTempC - 5), Math.min(50, baseTempC + 5));\n  const tempFactor = (tempC - 15) / 35;\n  // displacement สัมพันธ์กับอุณหภูมิ — ช่วง 0 ถึง 45mm\n  const dispMm = rnd(\n    Math.max(0.5, 20 * tempFactor - 5),\n    Math.min(45, 20 * tempFactor + 8)\n  );\n  const elongPct = parseFloat(((dispMm / JOINT_WIDTH_MM) * 100).toFixed(1));\n\n  let alarmLevel = 'OK';\n  if (dispMm >= ALARM_MM) alarmLevel = 'ALARM';\n  else if (dispMm >= WARN_MM) alarmLevel = 'WARNING';\n\n  return {\n    sensorId: s.id,\n    zone: s.zone,\n    floor: s.floor,\n    timestamp: now.toISOString(),\n    temperature: tempC,\n    displacement: dispMm,\n    elongation: elongPct,\n    alarmLevel: alarmLevel,\n    alarmFlag: alarmLevel === 'ALARM',\n    jointWidthMm: JOINT_WIDTH_MM,\n    alarmMm: ALARM_MM,\n    warnMm: WARN_MM,\n    elong400mm: ELONG_400_MM,\n    elong600mm: ELONG_600_MM\n  };\n});\n\nconst primary = readings[0];\nmsg.payload = primary;\nmsg.readings = readings;\nmsg.topic = 'facade/joint/data';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 220,
+        "wires": [
+            [
+                "4b32c794501c69ad",
+                "3f3263eb6e0f93c7",
+                "7f776bfcdd08379a",
+                "5e465df1552eea4a"
+            ]
+        ]
+    },
+    {
+        "id": "4b32c794501c69ad",
+        "type": "mqtt out",
+        "z": "bf0b092fe846c588",
+        "name": "MQTT Publish → facade/joint/data",
+        "topic": "facade/joint/data",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqtt-broker-local",
+        "x": 1100,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "0c21d746f6c96e50",
+        "type": "mqtt in",
+        "z": "bf0b092fe846c588",
+        "name": "MQTT Subscribe ← facade/joint/data",
+        "topic": "facade/joint/data",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "mqtt-broker-local",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 720,
+        "y": 380,
+        "wires": [
+            [
+                "3f3263eb6e0f93c7",
+                "7f776bfcdd08379a"
+            ]
+        ]
+    },
+    {
+        "id": "3f3263eb6e0f93c7",
+        "type": "function",
+        "z": "bf0b092fe846c588",
+        "name": "Alarm Logic (DOWSIL 795 Limits)",
+        "func": "const data = msg.payload;\nif (!data || data.displacement === undefined) return null;\n\n// DOWSIL 795 — ร่อง 10mm\n// 400% elongation = 40mm → ALARM (เกินค่าออกแบบ)\n// 240% elongation = 24mm → WARNING (60% ของ limit)\nconst ALARM_MM = data.alarmMm || 40;\nconst WARN_MM = data.warnMm || 24;\nconst disp = data.displacement;\nconst elong = data.elongation;\n\nlet level = 'OK';\nlet message = '';\n\nif (disp >= ALARM_MM) {\n    level = 'ALARM';\n    message = '🚨 CRITICAL — Sensor ' + data.sensorId +\n        ' (Zone ' + data.zone + ', Floor ' + data.floor + 'F)' +\n        '\\nDisplacement: ' + disp.toFixed(2) + 'mm' +\n        ' (Elongation ' + elong + '%)' +\n        '\\nเกินขีดจำกัด DOWSIL 795 ที่ 400% (' + ALARM_MM + 'mm)' +\n        '\\nต้องตรวจสอบและซ่อมแซมทันที!';\n} else if (disp >= WARN_MM) {\n    level = 'WARNING';\n    message = '⚠️ WARNING — Sensor ' + data.sensorId +\n        ' (Zone ' + data.zone + ', Floor ' + data.floor + 'F)' +\n        '\\nDisplacement: ' + disp.toFixed(2) + 'mm' +\n        ' (Elongation ' + elong + '%)' +\n        '\\nเข้าสู่โซนเฝ้าระวัง (>' + WARN_MM + 'mm)';\n}\n\nif (level !== 'OK') {\n    msg.payload = {\n        level: level,\n        message: message,\n        sensor: data.sensorId,\n        zone: data.zone,\n        floor: data.floor,\n        timestamp: data.timestamp,\n        values: {\n            displacement: disp,\n            elongation: elong,\n            temperature: data.temperature,\n            alarmMm: ALARM_MM,\n            warnMm: WARN_MM\n        }\n    };\n    msg.topic = 'facade/joint/alarm';\n    return msg;\n}\nreturn null;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 320,
+        "wires": [
+            [
+                "a4a0a2898f3d25ca",
+                "bc86dee2738023a2"
+            ]
+        ]
+    },
+    {
+        "id": "7f776bfcdd08379a",
+        "type": "function",
+        "z": "bf0b092fe846c588",
+        "name": "Prepare Dual-Axis Chart Data",
+        "func": "const data = msg.payload;\nif (!data || data.temperature === undefined) return null;\n\nconst ALARM_MM = 40;   // 400% × 10mm\nconst WARN_MM = 24;   // 240% × 10mm\n\nconst ts = new Date(data.timestamp || Date.now());\nconst hh = ts.getHours().toString().padStart(2, '0');\nconst mm2 = ts.getMinutes().toString().padStart(2, '0');\nconst ss = ts.getSeconds().toString().padStart(2, '0');\n\nconst disp = data.displacement;\nconst elong = data.elongation;\n\nlet alertCount = context.get('alertCount') || 0;\nif (disp >= ALARM_MM) {\n    alertCount++;\n    context.set('alertCount', alertCount);\n}\n\nlet dispBadge = 'Within Limit';\nlet elongBadge = 'Safe';\nlet alertBadge = 'No Alarm';\n\nif (disp >= ALARM_MM) {\n    dispBadge = 'ALARM';\n    elongBadge = 'CRITICAL';\n    alertBadge = 'ALARM';\n} else if (disp >= WARN_MM) {\n    dispBadge = 'WARNING';\n    elongBadge = 'Caution';\n    alertBadge = alertCount > 0 ? alertCount + ' events' : 'No Alarm';\n}\n\nmsg.payload = JSON.stringify({\n    type: 'update',\n    chart: {\n        label: hh + ':' + mm2 + ':' + ss,\n        temperature: data.temperature,\n        displacement: disp,\n        elongation: elong,\n        alarmFlag: disp >= ALARM_MM,\n        warnFlag: disp >= WARN_MM\n    },\n    table: msg.readings || [],\n    metrics: {\n        temperature: data.temperature,\n        displacement: disp,\n        elongation: elong,\n        alertCount: alertCount,\n        dispBadge: dispBadge,\n        elongBadge: elongBadge,\n        alertBadge: alertBadge,\n        alarmMm: ALARM_MM,\n        warnMm: WARN_MM\n    }\n});\nmsg.topic = 'chartPoint';\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1090,
+        "y": 460,
+        "wires": [
+            [
+                "7fcccc7caee5fa58",
+                "9a442fe4d1ad3cf7"
+            ]
+        ]
+    },
+    {
+        "id": "9a442fe4d1ad3cf7",
+        "type": "ui_template",
+        "z": "bf0b092fe846c588",
+        "group": "ui-group-chart",
+        "name": "Dual-Axis Chart (Temperature & Displacement)",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div style=\"background:#fff;border-radius:8px;padding:12px 14px;font-family:sans-serif;\">\n\n  <div style=\"display:flex;align-items:center;gap:8px;margin-bottom:8px;\">\n    <span id=\"liveDot\" style=\"width:8px;height:8px;border-radius:50%;\n          background:#d1d5db;display:inline-block;flex-shrink:0;\"></span>\n    <span id=\"liveText\" style=\"font-size:12px;color:#6b7280;\">Connecting...</span>\n  </div>\n\n  <div style=\"position:relative;width:100%;height:320px;\">\n    <canvas id=\"dualChart\"></canvas>\n  </div>\n\n  <!-- Sensor Table -->\n  <div style=\"margin-top:18px;\">\n    <div style=\"font-size:11px;font-weight:600;letter-spacing:.08em;\n                color:#6b7280;margin-bottom:8px;\">SENSOR NETWORK STATUS</div>\n    <table style=\"width:100%;border-collapse:collapse;font-size:13px;\">\n      <thead>\n        <tr style=\"border-bottom:1.5px solid #e5e7eb;\">\n          <th style=\"text-align:left;padding:5px 8px;color:#374151;font-weight:500;\">Sensor ID</th>\n          <th style=\"text-align:left;padding:5px 8px;color:#374151;font-weight:500;\">Zone</th>\n          <th style=\"text-align:left;padding:5px 8px;color:#374151;font-weight:500;\">Floor</th>\n          <th style=\"text-align:left;padding:5px 8px;color:#374151;font-weight:500;\">Temp (°C)</th>\n          <th style=\"text-align:left;padding:5px 8px;color:#374151;font-weight:500;\">Displacement (mm)</th>\n          <th style=\"text-align:left;padding:5px 8px;color:#374151;font-weight:500;\">Elongation</th>\n          <th style=\"text-align:left;padding:5px 8px;color:#374151;font-weight:500;\">Status</th>\n        </tr>\n      </thead>\n      <tbody id=\"sensorTbody\">\n        <tr><td colspan=\"7\" style=\"padding:14px;color:#9ca3af;text-align:center;\">\n          Waiting for data...\n        </td></tr>\n      </tbody>\n    </table>\n    <div id=\"tblTs\" style=\"font-size:11px;color:#9ca3af;margin-top:5px;text-align:right;\"></div>\n  </div>\n</div>\n\n<script>\n(function() {\n  var MAX     = 50;\n  var JW      = 10;      // joint width 10mm\n  var ALARM_D = 40;      // 400% × 10mm\n  var WARN_D  = 24;      // 240% × 10mm\n  var chart   = null;\n  var ws      = null;\n\n  /* ---- build Chart.js 2.x ---- */\n  function buildChart() {\n    if (chart) return;\n    var canvas = document.getElementById('dualChart');\n    if (!canvas) return;\n    chart = new Chart(canvas.getContext('2d'), {\n      type: 'line',\n      data: {\n        labels: [],\n        datasets: [\n          {\n            label: 'Temperature (°C)',\n            data: [], yAxisID: 'yL',\n            borderColor: '#ef4444',\n            backgroundColor: 'rgba(239,68,68,0.0)',\n            borderWidth: 2, pointRadius: 3,\n            fill: false, lineTension: 0.4\n          },\n          {\n            label: 'Displacement (mm)',\n            data: [], yAxisID: 'yR',\n            borderColor: '#3b82f6',\n            backgroundColor: 'rgba(59,130,246,0.0)',\n            borderWidth: 2, pointRadius: 3,\n            fill: false, lineTension: 0.4\n          },\n          {\n            label: 'Alarm 400% (' + ALARM_D + 'mm)',\n            data: [], yAxisID: 'yR',\n            borderColor: '#ef4444',\n            borderWidth: 1.5, borderDash: [6,4],\n            pointRadius: 0, fill: false\n          },\n          {\n            label: 'Warning 240% (' + WARN_D + 'mm)',\n            data: [], yAxisID: 'yR',\n            borderColor: '#f59e0b',\n            borderWidth: 1.5, borderDash: [4,4],\n            pointRadius: 0, fill: false\n          }\n        ]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        animation: { duration: 150 },\n        legend: { position: 'top', labels: { fontSize: 11 } },\n        tooltips: { mode: 'index', intersect: false },\n        scales: {\n          xAxes: [{ ticks: { maxTicksLimit: 8, maxRotation: 0, autoSkip: true, fontSize: 10 } }],\n          yAxes: [\n            {\n              id: 'yL', position: 'left',\n              scaleLabel: { display: true, labelString: 'Temperature (°C)', fontColor: '#ef4444', fontSize: 11 },\n              ticks: { min: 10, max: 55, fontColor: '#ef4444', fontSize: 10 }\n            },\n            {\n              id: 'yR', position: 'right',\n              gridLines: { drawOnChartArea: false },\n              scaleLabel: { display: true, labelString: 'Displacement (mm)', fontColor: '#3b82f6', fontSize: 11 },\n              ticks: {\n                min: 0, max: 50, fontColor: '#3b82f6', fontSize: 10,\n                callback: function(v) {\n                  return v + 'mm (' + ((v/JW)*100).toFixed(0) + '%)';\n                }\n              }\n            }\n          ]\n        }\n      }\n    });\n  }\n\n  /* ---- push chart point ---- */\n  function pushChart(d) {\n    if (!chart || !d) return;\n    chart.data.labels.push(d.label);\n    chart.data.datasets[0].data.push(d.temperature);\n    chart.data.datasets[1].data.push(d.displacement);\n    if (chart.data.labels.length > MAX) {\n      chart.data.labels.shift();\n      chart.data.datasets[0].data.shift();\n      chart.data.datasets[1].data.shift();\n    }\n    // reference lines\n    chart.data.datasets[2].data = chart.data.labels.map(function(){ return ALARM_D; });\n    chart.data.datasets[3].data = chart.data.labels.map(function(){ return WARN_D;  });\n    chart.update();\n  }\n\n  /* ---- update status bar ---- */\n  function updateStatus(d) {\n    var dot  = document.getElementById('liveDot');\n    var text = document.getElementById('liveText');\n    if (!dot || !text) return;\n    var disp = parseFloat(d.displacement);\n    if (disp >= ALARM_D) {\n      dot.style.background = '#ef4444';\n      text.style.color     = '#ef4444';\n      text.textContent     = '🚨 ALARM — Displacement ' + disp.toFixed(2) + 'mm (Elongation ' + d.elongation + '%) เกินขีดจำกัด 400%!';\n    } else if (disp >= WARN_D) {\n      dot.style.background = '#f59e0b';\n      text.style.color     = '#f59e0b';\n      text.textContent     = '⚠ WARNING — Displacement ' + disp.toFixed(2) + 'mm (Elongation ' + d.elongation + '%) เข้าโซนเฝ้าระวัง';\n    } else {\n      dot.style.background = '#22c55e';\n      text.style.color     = '#22c55e';\n      text.textContent     = '● Live  |  Temp: ' + d.temperature + '°C  |  Disp: ' + disp.toFixed(2) + 'mm  |  Elong: ' + d.elongation + '%';\n    }\n  }\n\n  /* ---- render sensor table ---- */\n  function renderTable(rows) {\n    var tbody = document.getElementById('sensorTbody');\n    if (!tbody || !rows || !rows.length) return;\n\n    function dispColor(disp) {\n      return disp >= ALARM_D ? '#ef4444' : disp >= WARN_D ? '#f59e0b' : '#111827';\n    }\n    function statusBadge(disp) {\n      if (disp >= ALARM_D) return '<span style=\"color:#ef4444;font-weight:500;\">● ALARM</span>';\n      if (disp >= WARN_D)  return '<span style=\"color:#f59e0b;font-weight:500;\">● Caution</span>';\n      return '<span style=\"color:#22c55e;\">● OK</span>';\n    }\n\n    tbody.innerHTML = rows.map(function(r, i) {\n      var disp = parseFloat(r.displacement);\n      var bg   = i % 2 === 0 ? '#fff' : '#f9fafb';\n      return '<tr style=\"background:' + bg + ';border-bottom:1px solid #f3f4f6;\">' +\n        '<td style=\"padding:6px 8px;font-family:monospace;font-size:12px;\">' + r.sensorId + '</td>' +\n        '<td style=\"padding:6px 8px;\">' + r.zone + '</td>' +\n        '<td style=\"padding:6px 8px;\">' + r.floor + 'F</td>' +\n        '<td style=\"padding:6px 8px;color:#111;\">' + parseFloat(r.temperature).toFixed(1) + '</td>' +\n        '<td style=\"padding:6px 8px;color:' + dispColor(disp) + ';font-weight:500;\">' + disp.toFixed(2) + '</td>' +\n        '<td style=\"padding:6px 8px;color:' + dispColor(disp) + ';\">' + r.elongation + '%</td>' +\n        '<td style=\"padding:6px 8px;\">' + statusBadge(disp) + '</td>' +\n      '</tr>';\n    }).join('');\n\n    var ts = document.getElementById('tblTs');\n    if (ts) ts.textContent = 'Updated: ' + new Date().toLocaleTimeString('th-TH');\n  }\n\n  /* ---- WebSocket ---- */\n  function connectWS() {\n    var host = window.location.hostname;\n    var port = window.location.port || 1880;\n    ws = new WebSocket('ws://' + host + ':' + port + '/ws/chart');\n\n    ws.onopen = function() {\n      var dot  = document.getElementById('liveDot');\n      var text = document.getElementById('liveText');\n      if (dot)  dot.style.background = '#f59e0b';\n      if (text) { text.style.color = '#f59e0b'; text.textContent = 'Connected — waiting for data...'; }\n    };\n\n    ws.onmessage = function(e) {\n      try {\n        var pkt = JSON.parse(e.data);\n        if (pkt.type === 'update') {\n          if (pkt.chart) { pushChart(pkt.chart); updateStatus(pkt.chart); }\n          if (pkt.table) { renderTable(pkt.table); }\n        }\n      } catch(err) {\n        console.error('WS parse error:', err);\n      }\n    };\n\n    ws.onerror = function() {\n      var text = document.getElementById('liveText');\n      if (text) text.textContent = 'WebSocket error';\n    };\n    ws.onclose = function() {\n      var text = document.getElementById('liveText');\n      if (text) text.textContent = 'Reconnecting...';\n      setTimeout(connectWS, 3000);\n    };\n  }\n\n  setTimeout(function() { buildChart(); connectWS(); }, 400);\n})();\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1500,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a4a0a2898f3d25ca",
+        "type": "function",
+        "z": "bf0b092fe846c588",
+        "name": "Format Notification msg",
+        "func": "// Prepare notification message\n// Works with BOTH node-red-dashboard v2 (ui_notification)\n// AND @flowfuse/node-red-dashboard v3 (ui-notification)\n// msg.payload must be a plain string for both versions\nif (msg.payload && msg.payload.message) {\n    msg.payload = msg.payload.message;\n}\nmsg.topic = 'Facade Joint Alert';\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1430,
+        "y": 360,
+        "wires": [
+            [
+                "e08a35d7b1fea9f0",
+                "5a7c2b8b972a42b7"
+            ]
+        ]
+    },
+    {
+        "id": "e08a35d7b1fea9f0",
+        "type": "debug",
+        "z": "bf0b092fe846c588",
+        "name": "Debug Notification",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1690,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "bc86dee2738023a2",
+        "type": "debug",
+        "z": "bf0b092fe846c588",
+        "name": "Debug Alarms",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1400,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "5e465df1552eea4a",
+        "type": "debug",
+        "z": "bf0b092fe846c588",
+        "name": "Debug All Sensor Data",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "5a7c2b8b972a42b7",
+        "type": "ui-notification",
+        "z": "bf0b092fe846c588",
+        "ui": "b0a2066d9dfe8a1e",
+        "position": "top right",
+        "colorDefault": true,
+        "color": "#000000",
+        "displayTime": "3",
+        "showCountdown": true,
+        "outputs": 1,
+        "allowDismiss": true,
+        "dismissText": "Close",
+        "allowConfirm": false,
+        "confirmText": "Confirm",
+        "raw": false,
+        "className": "",
+        "name": "",
+        "x": 1690,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7fcccc7caee5fa58",
+        "type": "websocket out",
+        "z": "bf0b092fe846c588",
+        "name": "",
+        "server": "165b92b632a5f741",
+        "client": "",
+        "x": 1400,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "mqtt-broker-local",
+        "type": "mqtt-broker",
+        "name": "test.mosquitto.org",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "nodered-facade-monitor",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "ui-group-chart",
+        "type": "ui_group",
+        "name": "Joint Movement Monitor",
+        "tab": "ui-tab-main",
+        "order": 1,
+        "disp": true,
+        "width": 24,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b0a2066d9dfe8a1e",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "165b92b632a5f741",
+        "type": "websocket-listener",
+        "path": "/ws/chart",
+        "wholemsg": "false"
+    },
+    {
+        "id": "ui-tab-main",
+        "type": "ui_tab",
+        "name": "Facade IoT Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "ec26d669e0e2c00b",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6",
+            "@flowfuse/node-red-dashboard": "1.30.2"
+        }
+    }
+]
