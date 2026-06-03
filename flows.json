@@ -1,362 +1,236 @@
 [
-    {
-        "id": "6835bfa401e18e9c",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
-        "id": "9c04d4a185258543",
-        "type": "inject",
-        "z": "6835bfa401e18e9c",
-        "name": "Start Simulation",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "5",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 270,
-        "y": 100,
-        "wires": [
-            [
-                "4850c0fce1b375a4"
-            ]
-        ]
-    },
-    {
-        "id": "4850c0fce1b375a4",
-        "type": "function",
-        "z": "6835bfa401e18e9c",
-        "name": "Random Joint & Temp Data",
-        "func": "// สุ่มค่า Joint Movement ระหว่าง 2.0 ถึง 6.0 มม.\nvar jointMovement = parseFloat((Math.random() * (6.0 - 2.0) + 2.0).toFixed(2));\n\n// สุ่มค่าอุณหภูมิผิววัสดุระหว่าง 30 ถึง 55 องศาเซลเซียส\nvar temperature = parseFloat((Math.random() * (55 - 30) + 30).toFixed(1));\n\n// แยกส่งข้อมูลเป็น 2 เส้นพร้อมระบุกลุ่มข้อมูล (Topic) เพื่อให้กราฟจำแนกเส้นได้\nvar msg1 = { payload: jointMovement, topic: \"Joint Displacement (mm)\" };\nvar msg2 = { payload: temperature, topic: \"Substrate Temp (°C)\" };\n\n// ส่งข้อมูลออกพร้อมกันทั้ง 2 ค่า\nreturn [msg1, msg2];",
-        "outputs": 2,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 560,
-        "y": 100,
-        "wires": [
-            [
-                "0e17008cf7391b0f",
-                "d9cb4d3b823d1d79",
-                "2f33be9e69d93824",
-                "a0729b22b87179d1"
-            ],
-            [
-                "d9cb4d3b823d1d79",
-                "2f33be9e69d93824",
-                "a0729b22b87179d1"
-            ]
-        ]
-    },
-    {
-        "id": "0e17008cf7391b0f",
-        "type": "debug",
-        "z": "6835bfa401e18e9c",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 820,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "d9cb4d3b823d1d79",
-        "type": "ui-chart",
-        "z": "6835bfa401e18e9c",
-        "group": "28a7c77e996b359f",
-        "name": "",
-        "label": "Real-Time Facade Structural Monitoring",
-        "order": 1,
-        "chartType": "line",
-        "category": "topic",
-        "categoryType": "msg",
-        "xAxisLabel": "Time",
-        "xAxisProperty": "",
-        "xAxisPropertyType": "timestamp",
-        "xAxisType": "time",
-        "xAxisFormat": "",
-        "xAxisFormatType": "auto",
-        "xmin": "",
-        "xmax": "",
-        "yAxisLabel": "Measured Value (mm / °C)",
-        "yAxisProperty": "payload",
-        "yAxisPropertyType": "msg",
-        "ymin": "0",
-        "ymax": "60",
-        "bins": 10,
-        "action": "append",
-        "stackSeries": false,
-        "pointShape": "circle",
-        "pointRadius": 4,
-        "showLegend": true,
-        "removeOlder": "5",
-        "removeOlderUnit": "60",
-        "removeOlderPoints": "",
-        "colors": [
-            "#5900ff",
-            "#ff9896",
-            "#ff7f0e",
-            "#2ca02c",
-            "#a347e1",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "textColor": [
-            "#666666"
-        ],
-        "textColorDefault": true,
-        "gridColor": [
-            "#e5e5e5"
-        ],
-        "gridColorDefault": true,
-        "width": "6",
-        "height": "10",
-        "className": "",
-        "interpolation": "linear",
-        "x": 920,
-        "y": 140,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "2f33be9e69d93824",
-        "type": "mqtt out",
-        "z": "6835bfa401e18e9c",
-        "name": "",
-        "topic": "dow/facade/joint_monitor",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "8d5fb95a918be01f",
-        "x": 870,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "a0729b22b87179d1",
-        "type": "function",
-        "z": "6835bfa401e18e9c",
-        "name": "Safety Analysis (DOWSIL 795)",
-        "func": "// กำหนดค่ามาตรฐานร่องเดิม (Initial Joint Width) เช่น 10 มม.\nvar initialWidth = 10.0;\n\n// ค่าระยะยืดตัวสูงสุดที่ยอมรับได้ (Elongation at 400%)\nvar maxSafeElongation = 40.0;\n\n// รับค่าระยะขยับตัวปัจจุบันจากเซนเซอร์จำลอง\nvar currentMovement = msg.payload.joint_mm;\n\n// คำนวณสถานะความปลอดภัย\nif (currentMovement >= maxSafeElongation) {\n    msg.payload = \"CRITICAL: Movement exceeds 400% limit (\" + currentMovement + \" mm). Structural risk detected!\";\n    msg.status = \"danger\";\n} else if (currentMovement >= (maxSafeElongation * 0.8)) {\n    msg.payload = \"WARNING: Movement approaching 400% limit. Inspect sealant integrity.\";\n    msg.status = \"warning\";\n} else {\n    msg.payload = \"NORMAL: System within safe operational limits.\";\n    msg.status = \"success\";\n}\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 890,
-        "y": 240,
-        "wires": [
-            [
-                "e33bb94075366145"
-            ]
-        ]
-    },
-    {
-        "id": "e33bb94075366145",
-        "type": "ui-notification",
-        "z": "6835bfa401e18e9c",
-        "ui": "b0a2066d9dfe8a1e",
-        "position": "top right",
-        "colorDefault": true,
-        "color": "#000000",
-        "displayTime": "8",
-        "showCountdown": true,
-        "outputs": 1,
-        "allowDismiss": true,
-        "dismissText": "Close",
-        "allowConfirm": false,
-        "confirmText": "Confirm",
-        "raw": false,
-        "className": "",
-        "name": "",
-        "x": 1170,
-        "y": 240,
-        "wires": [
-            [
-                "1656be2a1bfd3d87"
-            ]
-        ]
-    },
-    {
-        "id": "1656be2a1bfd3d87",
-        "type": "ui-text",
-        "z": "6835bfa401e18e9c",
-        "group": "28a7c77e996b359f",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "DOWSIL 795 Material Status",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#717171",
-        "wrapText": false,
-        "className": "",
-        "value": "payload",
-        "valueType": "msg",
-        "x": 1460,
-        "y": 240,
-        "wires": []
-    },
-    {
-        "id": "28a7c77e996b359f",
-        "type": "ui-group",
-        "name": "Group 1",
-        "page": "a7b18d701f169086",
-        "width": 6,
-        "height": 1,
-        "order": 1,
-        "showTitle": true,
-        "className": "",
-        "visible": true,
-        "disabled": false,
-        "groupType": "default"
-    },
-    {
-        "id": "8d5fb95a918be01f",
-        "type": "mqtt-broker",
-        "name": "",
-        "broker": "broker.emqx.io",
-        "port": 1883,
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": 4,
-        "keepalive": 60,
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthRetain": "false",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closeRetain": "false",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willRetain": "false",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
-        "id": "b0a2066d9dfe8a1e",
-        "type": "ui-base",
-        "name": "My Dashboard",
-        "path": "/dashboard",
-        "appIcon": "",
-        "includeClientData": true,
-        "acceptsClientConfig": [
-            "ui-notification",
-            "ui-control"
-        ],
-        "showPathInSidebar": false,
-        "headerContent": "page",
-        "navigationStyle": "default",
-        "titleBarStyle": "default",
-        "showReconnectNotification": true,
-        "notificationDisplayTime": 1,
-        "showDisconnectNotification": true,
-        "allowInstall": false
-    },
-    {
-        "id": "a7b18d701f169086",
-        "type": "ui-page",
-        "name": "Page 1",
-        "ui": "b0a2066d9dfe8a1e",
-        "path": "/page1",
-        "icon": "home",
-        "layout": "grid",
-        "theme": "f66aebcd7d8f7073",
-        "breakpoints": [
-            {
-                "name": "Default",
-                "px": 0,
-                "cols": 3
-            },
-            {
-                "name": "Tablet",
-                "px": 576,
-                "cols": 6
-            },
-            {
-                "name": "Small Desktop",
-                "px": 768,
-                "cols": 9
-            },
-            {
-                "name": "Desktop",
-                "px": 1024,
-                "cols": 12
-            }
-        ],
-        "order": 1,
-        "className": "",
-        "visible": "true",
-        "disabled": "false"
-    },
-    {
-        "id": "f66aebcd7d8f7073",
-        "type": "ui-theme",
-        "name": "Default Theme",
-        "colors": {
-            "surface": "#ffffff",
-            "primary": "#0094CE",
-            "bgPage": "#eeeeee",
-            "groupBg": "#ffffff",
-            "groupOutline": "#cccccc"
-        },
-        "sizes": {
-            "density": "default",
-            "pagePadding": "12px",
-            "groupGap": "12px",
-            "groupBorderRadius": "4px",
-            "widgetGap": "12px"
-        }
-    },
-    {
-        "id": "88c799218ae48f55",
-        "type": "global-config",
-        "env": [],
-        "modules": {
-            "@flowfuse/node-red-dashboard": "1.30.2"
-        }
-    }
+  {
+    "id": "tab-facade-iot",
+    "type": "tab",
+    "label": "Facade Joint Monitor",
+    "disabled": false,
+    "info": "IoT-Based Joint Movement Monitoring System for Building Facades\nSealant: DOWSIL 795 - Ultimate elongation 400%-600%"
+  },
+
+  {
+    "id": "inject-sensor",
+    "type": "inject",
+    "z": "tab-facade-iot",
+    "name": "Data Simulator (2s)",
+    "props": [{ "p": "payload" }, { "p": "topic", "vt": "str" }],
+    "repeat": "2",
+    "crontab": "",
+    "once": true,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 130,
+    "y": 100,
+    "wires": [["fn-gen-sensor-data"]]
+  },
+
+  {
+    "id": "fn-gen-sensor-data",
+    "type": "function",
+    "z": "tab-facade-iot",
+    "name": "Generate Random Sensor Data",
+    "func": "\n// DOWSIL 795 Structural Glazing Sealant\n// Ultimate elongation: 400% to 600%\nconst JOINT_WIDTH_MM = 20;       // mm (design joint width)\nconst ELONG_LIMIT    = 400;      // % (conservative limit)\nconst ALARM_THRESHOLD = 320;     // % (trigger alarm at 80% of limit)\n\nconst sensors = [\n  { id: 'SNS-F01-N', zone: 'North', floor: 1 },\n  { id: 'SNS-F03-E', zone: 'East',  floor: 3 },\n  { id: 'SNS-F05-S', zone: 'South', floor: 5 },\n  { id: 'SNS-F07-W', zone: 'West',  floor: 7 },\n];\n\nfunction rnd(min, max) {\n  return parseFloat((Math.random() * (max - min) + min).toFixed(2));\n}\n\nconst now = new Date();\n\n// Temperature: realistic outdoor building facade temp\nconst hourAngle = (now.getHours() + now.getMinutes()/60) / 24 * 2 * Math.PI;\nconst baseTempC  = 28 + 12 * Math.sin(hourAngle - Math.PI/2); // diurnal cycle\n\nconst readings = sensors.map(s => {\n  const tempC      = rnd(Math.max(15, baseTempC - 5), Math.min(50, baseTempC + 5));\n  const tempFactor = (tempC - 15) / 35;         // normalise 15-50°C → 0-1\n  const dispMm     = rnd(Math.max(0.5, 5 * tempFactor - 1), Math.min(11, 5 * tempFactor + 2));\n  const elongPct   = parseFloat(((dispMm / JOINT_WIDTH_MM) * 100).toFixed(1));\n  const alarmFlag  = elongPct > ALARM_THRESHOLD;\n\n  return {\n    sensorId:    s.id,\n    zone:        s.zone,\n    floor:       s.floor,\n    timestamp:   now.toISOString(),\n    temperature: tempC,\n    displacement: dispMm,\n    elongation:  elongPct,\n    alarmFlag:   alarmFlag,\n    jointWidthMm: JOINT_WIDTH_MM,\n    elongLimitPct: ELONG_LIMIT\n  };\n});\n\n// Primary reading for chart (first sensor or average)\nconst primary = readings[0];\nmsg.payload  = primary;\nmsg.topic    = 'facade/joint/data';\nmsg.readings = readings;   // all sensors\n\nreturn msg;\n",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 100,
+    "wires": [["mqtt-out-broker", "fn-check-alarm", "fn-chart-data"]]
+  },
+
+  {
+    "id": "mqtt-out-broker",
+    "type": "mqtt out",
+    "z": "tab-facade-iot",
+    "name": "MQTT Publish → facade/joint/data",
+    "topic": "facade/joint/data",
+    "qos": "1",
+    "retain": "false",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "mqtt-broker-local",
+    "x": 640,
+    "y": 60,
+    "wires": []
+  },
+
+  {
+    "id": "mqtt-broker-local",
+    "type": "mqtt-broker",
+    "name": "Local MQTT Broker",
+    "broker": "localhost",
+    "port": "1883",
+    "clientid": "nodered-facade-monitor",
+    "autoConnect": true,
+    "usetls": false,
+    "protocolVersion": "4",
+    "keepalive": "60",
+    "cleansession": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closeQos": "0",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": ""
+  },
+
+  {
+    "id": "mqtt-in-sub",
+    "type": "mqtt in",
+    "z": "tab-facade-iot",
+    "name": "MQTT Subscribe ← facade/joint/data",
+    "topic": "facade/joint/data",
+    "qos": "1",
+    "datatype": "json",
+    "broker": "mqtt-broker-local",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 140,
+    "y": 280,
+    "wires": [["fn-check-alarm", "fn-chart-data"]]
+  },
+
+  {
+    "id": "fn-check-alarm",
+    "type": "function",
+    "z": "tab-facade-iot",
+    "name": "Alarm Logic (DOWSIL 795 Limits)",
+    "func": "\n// DOWSIL 795 limits\n// Ultimate elongation: 400%-600% → design safe limit: 400%\n// Alarm at 80% of limit = 320%\n\nconst data = msg.payload;\nconst ALARM_ELONG   = 320;   // %\nconst ALERT_ELONG   = 200;   // % - caution\nconst ALARM_TEMP    = 45;    // °C\n\nif (!data || data.elongation === undefined) return null;\n\nlet alarmLevel = 'OK';\nlet alarmMsg   = '';\n\nif (data.elongation > ALARM_ELONG) {\n  alarmLevel = 'ALARM';\n  alarmMsg   = `CRITICAL: Sensor ${data.sensorId} - Elongation ${data.elongation}% exceeds safe design threshold (${ALARM_ELONG}%). Design limit: 400%. Immediate inspection required!`;\n} else if (data.elongation > ALERT_ELONG) {\n  alarmLevel = 'CAUTION';\n  alarmMsg   = `CAUTION: Sensor ${data.sensorId} - Elongation ${data.elongation}% above monitoring threshold.`;\n} else if (data.temperature > ALARM_TEMP) {\n  alarmLevel = 'TEMP_HIGH';\n  alarmMsg   = `HIGH TEMP: Sensor ${data.sensorId} - Temperature ${data.temperature}°C. Check sealant thermal performance.`;\n}\n\nif (alarmLevel !== 'OK') {\n  msg.payload = {\n    level:    alarmLevel,\n    message:  alarmMsg,\n    sensor:   data.sensorId,\n    zone:     data.zone,\n    floor:    data.floor,\n    timestamp: data.timestamp,\n    values: {\n      temperature:  data.temperature,\n      displacement: data.displacement,\n      elongation:   data.elongation\n    }\n  };\n  msg.topic = 'facade/joint/alarm';\n  return msg;\n}\nreturn null;\n",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 380,
+    "y": 220,
+    "wires": [["notif-node", "debug-alarm"]]
+  },
+
+  {
+    "id": "fn-chart-data",
+    "type": "function",
+    "z": "tab-facade-iot",
+    "name": "Prepare Dual-Axis Chart Data",
+    "func": "\n// Prepare data for ui-chart dual-axis display\n// Left Y-axis:  Temperature (°C)\n// Right Y-axis: Displacement (mm)\n\nconst data = msg.payload;\nif (!data || data.temperature === undefined) return null;\n\nconst ts = new Date(data.timestamp || Date.now());\nconst label = ts.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' });\n\n// Chart.js dual-axis format via ui-template\nconst point = {\n  label:        label,\n  temperature:  data.temperature,\n  displacement: data.displacement,\n  elongation:   data.elongation,\n  sensorId:     data.sensorId,\n  alarmFlag:    data.alarmFlag\n};\n\nmsg.payload = point;\nmsg.topic   = 'chartPoint';\nreturn msg;\n",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 380,
+    "y": 300,
+    "wires": [["ui-template-chart"]]
+  },
+
+  {
+    "id": "ui-template-chart",
+    "type": "ui_template",
+    "z": "tab-facade-iot",
+    "group": "ui-group-chart",
+    "name": "Dual-Axis Chart (Temperature & Displacement)",
+    "order": 1,
+    "width": 0,
+    "height": 0,
+    "format": "<!-- Dual Y-Axis Chart: Temperature (left) vs Displacement (right) -->\n<div ng-init=\"init()\">\n  <canvas id=\"dualChart\" width=\"800\" height=\"400\"></canvas>\n</div>\n\n<script>\n(function(scope) {\n  const MAX_PTS = 50;\n  const JOINT_W = 20;        // mm\n  const ALARM_ELONG = 320;   // %\n  const ALARM_DISP  = (JOINT_W * ALARM_ELONG / 100).toFixed(2); // mm\n\n  let chart = null;\n  let labels = [], tempArr = [], dispArr = [];\n\n  scope.init = function() {\n    const ctx = document.getElementById('dualChart').getContext('2d');\n    chart = new Chart(ctx, {\n      type: 'line',\n      data: {\n        labels: labels,\n        datasets: [\n          {\n            label: 'Temperature (°C)',\n            data: tempArr,\n            borderColor: '#ef4444',\n            backgroundColor: 'rgba(239,68,68,0.07)',\n            borderWidth: 2,\n            pointRadius: 3,\n            fill: true,\n            tension: 0.4,\n            yAxisID: 'yLeft'\n          },\n          {\n            label: 'Displacement (mm)',\n            data: dispArr,\n            borderColor: '#3b82f6',\n            backgroundColor: 'rgba(59,130,246,0.07)',\n            borderWidth: 2,\n            pointRadius: 3,\n            fill: true,\n            tension: 0.4,\n            yAxisID: 'yRight'\n          },\n          {\n            label: 'Alarm threshold (mm)',\n            data: [],\n            borderColor: '#f59e0b',\n            borderWidth: 1.5,\n            borderDash: [6, 4],\n            pointRadius: 0,\n            fill: false,\n            yAxisID: 'yRight'\n          }\n        ]\n      },\n      options: {\n        responsive: true,\n        animation: { duration: 300 },\n        plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } },\n        scales: {\n          x: { ticks: { maxTicksLimit: 10 } },\n          yLeft: {\n            type: 'linear',\n            position: 'left',\n            title: { display: true, text: 'Temperature (°C)', color: '#ef4444' },\n            min: 10, max: 55\n          },\n          yRight: {\n            type: 'linear',\n            position: 'right',\n            title: { display: true, text: 'Displacement (mm) | Elongation %', color: '#3b82f6' },\n            min: 0, max: 12,\n            grid: { drawOnChartArea: false },\n            ticks: {\n              callback: function(v) {\n                const ePct = ((v / JOINT_W) * 100).toFixed(0);\n                return v + 'mm (' + ePct + '%)';\n              }\n            }\n          }\n        }\n      }\n    });\n  };\n\n  scope.$watch('msg', function(msg) {\n    if (!msg || !msg.payload || !chart) return;\n    const d = msg.payload;\n    labels.push(d.label);\n    tempArr.push(d.temperature);\n    dispArr.push(d.displacement);\n    if (labels.length > MAX_PTS) { labels.shift(); tempArr.shift(); dispArr.shift(); }\n    chart.data.datasets[2].data = labels.map(() => parseFloat(ALARM_DISP));\n    chart.update();\n  });\n})(scope);\n</script>\n",
+    "storeOutMessages": true,
+    "fwdInMessages": true,
+    "resendOnRefresh": true,
+    "templateScope": "local",
+    "className": "",
+    "x": 640,
+    "y": 300,
+    "wires": [[]]
+  },
+
+  {
+    "id": "notif-node",
+    "type": "ui_notification",
+    "z": "tab-facade-iot",
+    "name": "Alert Popup Notification",
+    "position": "top right",
+    "displayTime": "6",
+    "highlight": "",
+    "sendall": true,
+    "outputs": 0,
+    "ok": "OK",
+    "cancel": "",
+    "raw": false,
+    "className": "",
+    "topic": "",
+    "x": 640,
+    "y": 220,
+    "wires": []
+  },
+
+  {
+    "id": "debug-alarm",
+    "type": "debug",
+    "z": "tab-facade-iot",
+    "name": "Debug Alarms",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 640,
+    "y": 180,
+    "wires": []
+  },
+
+  {
+    "id": "debug-sensor",
+    "type": "debug",
+    "z": "tab-facade-iot",
+    "name": "Debug All Sensor Data",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 660,
+    "y": 100,
+    "wires": []
+  },
+
+  {
+    "id": "ui-group-chart",
+    "type": "ui_group",
+    "name": "Joint Movement Monitor",
+    "tab": "ui-tab-main",
+    "order": 1,
+    "disp": true,
+    "width": 24,
+    "collapse": false
+  },
+
+  {
+    "id": "ui-tab-main",
+    "type": "ui_tab",
+    "name": "Facade IoT Dashboard",
+    "icon": "dashboard",
+    "disabled": false,
+    "hidden": false
+  }
 ]
