@@ -1,5 +1,5 @@
 # IoT-Building-Joint-Monitoring
-IoT-Based Joint Movement Monitoring System for Building Facades: An applied engineering case study utilizing Node-RED and MQTT to monitor real-time thermal expansion and predict sealant failure limits.
+Developed a Node-RED and MQTT-based IIoT monitoring workflow simulating real-time thermal expansion and joint displacement data across building facade sensors. The system cross-references measured elongation against DOWSIL 795 silicone sealant design limits (400% ultimate elongation, joint width 10mm = 40mm max displacement), implementing three-tier alerting (OK / Warning at 240% / Alarm at 400%) to support predictive maintenance scheduling and reduce risk of sealant failure in structural glazing applications.
 
 ## Project Title
 IoT-Based Structural Health Monitoring: Real-Time Joint Movement Analysis for Building Facades
