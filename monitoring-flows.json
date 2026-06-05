@@ -7,6 +7,435 @@
         "info": "IoT-Based Joint Movement Monitoring System for Building Facades\nSealant: DOWSIL 795 - Ultimate elongation 400%-600%"
     },
     {
+        "id": "b0a2066d9dfe8a1e",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "f66aebcd7d8f7073",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "a7b18d701f169086",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "b0a2066d9dfe8a1e",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "f66aebcd7d8f7073",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "28a7c77e996b359f",
+        "type": "ui-group",
+        "name": "Group 1",
+        "page": "a7b18d701f169086",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "c05ab4cb7e56e724",
+        "type": "mqtt-broker",
+        "name": "dow/facade/joint_monitor",
+        "broker": "broker.emqx.io",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8d5fb95a918be01f",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.emqx.io",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "7ce32d2e130b25e1",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "9c12edfcd47d4eff",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "32397de8a4ed214a",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "7ce32d2e130b25e1",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "mqtt-broker-local",
+        "type": "mqtt-broker",
+        "name": "test.mosquitto.org",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "nodered-facade-monitor",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "ui-tab-main",
+        "type": "ui_tab",
+        "name": "Facade IoT Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "ui-group-chart",
+        "type": "ui_group",
+        "name": "Joint Movement Monitor",
+        "tab": "ui-tab-main",
+        "order": 1,
+        "disp": true,
+        "width": 24,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "165b92b632a5f741",
+        "type": "websocket-listener",
+        "path": "/ws/chart",
+        "wholemsg": "false"
+    },
+    {
+        "id": "b8db9e5a626273ba",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "ui-tab-main",
+        "order": 2,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "6349375b481aa5e0",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "ui-tab-main",
+        "order": 3,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "69716c51a33d5dd5",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "ui-tab-main",
+        "order": 4,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b535b3cb6c8d6373",
+        "type": "websocket-listener",
+        "path": "/we/metrics",
+        "wholemsg": "false"
+    },
+    {
+        "id": "3c744fb6c552f856",
+        "type": "websocket-listener",
+        "path": "/ws/cmd",
+        "wholemsg": "false"
+    },
+    {
+        "id": "385267296a4c18dc",
+        "type": "ui-group",
+        "name": "Group Name",
+        "page": "a7b18d701f169086",
+        "width": 6,
+        "height": 1,
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "287bfae7dfaba73a",
+        "type": "ui-page",
+        "name": " Joint Movement Monitor",
+        "ui": "b0a2066d9dfe8a1e",
+        "path": "/page2",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "f66aebcd7d8f7073",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": -1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "540aeae74c53e62b",
+        "type": "ui-group",
+        "name": "Group Name",
+        "page": "287bfae7dfaba73a",
+        "width": 6,
+        "height": 1,
+        "order": -1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
         "id": "7c5738d0552690b8",
         "type": "inject",
         "z": "bf0b092fe846c588",
@@ -40,7 +469,7 @@
         "type": "function",
         "z": "bf0b092fe846c588",
         "name": "Generate Random Sensor Data",
-        "func": "// DOWSIL 795 — ใช้ร่องมาตรฐาน 10mm\nconst JOINT_WIDTH_MM = 10;   // ความกว้างร่องเริ่มต้น\nconst ELONG_400_MM = 40;   // ยืดได้สูงสุดที่ 400% = 40mm\nconst ELONG_600_MM = 60;   // ยืดได้สูงสุดที่ 600% = 60mm\nconst ALARM_MM = 40;   // Alarm ที่ 400% = 40mm\nconst WARN_MM = 24;   // Warning ที่ 240% = 24mm (60% ของ limit)\n\nconst sensors = [\n  { id: 'SNS-F01-N', zone: 'North', floor: 1 },\n  { id: 'SNS-F03-E', zone: 'East', floor: 3 },\n  { id: 'SNS-F05-S', zone: 'South', floor: 5 },\n  { id: 'SNS-F07-W', zone: 'West', floor: 7 },\n];\n\nfunction rnd(min, max) {\n  return parseFloat((Math.random() * (max - min) + min).toFixed(2));\n}\n\nconst now = new Date();\nconst hourAngle = (now.getHours() + now.getMinutes() / 60) / 24 * 2 * Math.PI;\nconst baseTempC = 28 + 12 * Math.sin(hourAngle - Math.PI / 2);\n\nconst readings = sensors.map(s => {\n  const tempC = rnd(Math.max(15, baseTempC - 5), Math.min(50, baseTempC + 5));\n  const tempFactor = (tempC - 15) / 35;\n  // displacement สัมพันธ์กับอุณหภูมิ — ช่วง 0 ถึง 45mm\n  const dispMm = rnd(\n    Math.max(0.5, 20 * tempFactor - 5),\n    Math.min(45, 20 * tempFactor + 8)\n  );\n  const elongPct = parseFloat(((dispMm / JOINT_WIDTH_MM) * 100).toFixed(1));\n\n  let alarmLevel = 'OK';\n  if (dispMm >= ALARM_MM) alarmLevel = 'ALARM';\n  else if (dispMm >= WARN_MM) alarmLevel = 'WARNING';\n\n  return {\n    sensorId: s.id,\n    zone: s.zone,\n    floor: s.floor,\n    timestamp: now.toISOString(),\n    temperature: tempC,\n    displacement: dispMm,\n    elongation: elongPct,\n    alarmLevel: alarmLevel,\n    alarmFlag: alarmLevel === 'ALARM',\n    jointWidthMm: JOINT_WIDTH_MM,\n    alarmMm: ALARM_MM,\n    warnMm: WARN_MM,\n    elong400mm: ELONG_400_MM,\n    elong600mm: ELONG_600_MM\n  };\n});\n\nconst primary = readings[0];\nmsg.payload = primary;\nmsg.readings = readings;\nmsg.topic = 'facade/joint/data';\nreturn msg;",
+        "func": "// ============================================\n// DOWSIL 795 — ค่าจาก TDS จริง (Form No. 63-1217-01-0124)\n// ============================================\n// Joint movement capability: ±50% (ASTM C719 Class 50)\n// Ultimate elongation at break: 400% (ASTM C1135, 21 days)\n// Ultimate elongation (7 days): 670% (ASTM D412)\n// Tensile strength at 100% elong: 0.6 MPa\n// Minimum structural bite: 6mm\n// Maximum bite (one side cure): 12mm\n// Glueline thickness minimum: 6mm\n// Bite:glueline ratio max: 3:1\n\nconst JOINT_WIDTH_MM  = 10;    // ความกว้างร่องออกแบบ (mm)\nconst GLUELINE_MM     = 6;     // ความหนา glueline (mm) — TDS minimum\n\n// Design movement limit: ±50% ตาม ASTM C719\nconst DESIGN_MOVE_PCT = 50;                              // %\nconst DESIGN_MOVE_MM  = JOINT_WIDTH_MM * DESIGN_MOVE_PCT / 100;  // 5mm\n\n// Ultimate elongation: 400% (21-day cure, ASTM C1135)\nconst ULTIMATE_ELONG_PCT = 400;\nconst ULTIMATE_ELONG_MM  = JOINT_WIDTH_MM * ULTIMATE_ELONG_PCT / 100; // 40mm\n\n// Alarm thresholds\nconst ALARM_MM = DESIGN_MOVE_MM;           // >5mm = เกิน design limit\nconst WARN_MM  = DESIGN_MOVE_MM * 0.80;   // >4mm = 80% of design limit\n\nconst sensors = [\n  { id: 'SNS-F01-N', zone: 'North', floor: 1 },\n  { id: 'SNS-F03-E', zone: 'East',  floor: 3 },\n  { id: 'SNS-F05-S', zone: 'South', floor: 5 },\n  { id: 'SNS-F07-W', zone: 'West',  floor: 7 },\n];\n\nfunction rnd(min, max) {\n    return parseFloat((Math.random() * (max - min) + min).toFixed(2));\n}\n\nconst now = new Date();\nconst hourAngle = (now.getHours() + now.getMinutes()/60) / 24 * 2 * Math.PI;\nconst baseTempC  = 28 + 12 * Math.sin(hourAngle - Math.PI/2);\n\nconst readings = sensors.map(s => {\n    const tempC      = rnd(Math.max(15, baseTempC - 5), Math.min(50, baseTempC + 5));\n    const tempFactor = (tempC - 15) / 35;\n\n    // displacement จำลองตาม thermal movement จริง\n    // ±50% ของ 10mm = ±5mm → range = 0 ถึง 8mm (รวม safety margin)\n    const dispMm = rnd(\n        Math.max(0.1, DESIGN_MOVE_MM * tempFactor * 0.5),\n        Math.min(DESIGN_MOVE_MM * 1.5, DESIGN_MOVE_MM * tempFactor * 1.2 + 1)\n    );\n\n    // Elongation = displacement / joint_width × 100\n    const elongPct = parseFloat(((dispMm / JOINT_WIDTH_MM) * 100).toFixed(1));\n\n    // % ของ design limit ที่ใช้ไป\n    const designUsedPct = parseFloat(((dispMm / DESIGN_MOVE_MM) * 100).toFixed(1));\n\n    let alarmLevel = 'OK';\n    if      (dispMm >= ALARM_MM) alarmLevel = 'ALARM';\n    else if (dispMm >= WARN_MM)  alarmLevel = 'WARNING';\n\n    return {\n        sensorId:       s.id,\n        zone:           s.zone,\n        floor:          s.floor,\n        timestamp:      now.toISOString(),\n        temperature:    tempC,\n        displacement:   dispMm,\n        elongation:     elongPct,\n        designUsedPct:  designUsedPct,   // % ของ ±50% design limit\n        alarmLevel:     alarmLevel,\n        alarmFlag:      alarmLevel === 'ALARM',\n        // TDS reference values\n        jointWidthMm:   JOINT_WIDTH_MM,\n        gluelineMm:     GLUELINE_MM,\n        designMoveMm:   DESIGN_MOVE_MM,   // 5mm (±50%)\n        alarmMm:        ALARM_MM,         // 5mm\n        warnMm:         WARN_MM,          // 4mm\n        ultimateElongPct: ULTIMATE_ELONG_PCT,  // 400%\n        ultimateElongMm:  ULTIMATE_ELONG_MM    // 40mm\n    };\n});\n\nconst primary    = readings[0];\nmsg.payload      = primary;\nmsg.readings     = readings;\nmsg.topic        = 'facade/joint/data';\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -72,7 +501,7 @@
         "correl": "",
         "expiry": "",
         "broker": "mqtt-broker-local",
-        "x": 1100,
+        "x": 1060,
         "y": 220,
         "wires": []
     },
@@ -103,14 +532,14 @@
         "type": "function",
         "z": "bf0b092fe846c588",
         "name": "Alarm Logic (DOWSIL 795 Limits)",
-        "func": "const data = msg.payload;\nif (!data || data.displacement === undefined) return null;\n\n// DOWSIL 795 — ร่อง 10mm\n// 400% elongation = 40mm → ALARM (เกินค่าออกแบบ)\n// 240% elongation = 24mm → WARNING (60% ของ limit)\nconst ALARM_MM = data.alarmMm || 40;\nconst WARN_MM = data.warnMm || 24;\nconst disp = data.displacement;\nconst elong = data.elongation;\n\nlet level = 'OK';\nlet message = '';\n\nif (disp >= ALARM_MM) {\n    level = 'ALARM';\n    message = '🚨 CRITICAL — Sensor ' + data.sensorId +\n        ' (Zone ' + data.zone + ', Floor ' + data.floor + 'F)' +\n        '\\nDisplacement: ' + disp.toFixed(2) + 'mm' +\n        ' (Elongation ' + elong + '%)' +\n        '\\nเกินขีดจำกัด DOWSIL 795 ที่ 400% (' + ALARM_MM + 'mm)' +\n        '\\nต้องตรวจสอบและซ่อมแซมทันที!';\n} else if (disp >= WARN_MM) {\n    level = 'WARNING';\n    message = '⚠️ WARNING — Sensor ' + data.sensorId +\n        ' (Zone ' + data.zone + ', Floor ' + data.floor + 'F)' +\n        '\\nDisplacement: ' + disp.toFixed(2) + 'mm' +\n        ' (Elongation ' + elong + '%)' +\n        '\\nเข้าสู่โซนเฝ้าระวัง (>' + WARN_MM + 'mm)';\n}\n\nif (level !== 'OK') {\n    msg.payload = {\n        level: level,\n        message: message,\n        sensor: data.sensorId,\n        zone: data.zone,\n        floor: data.floor,\n        timestamp: data.timestamp,\n        values: {\n            displacement: disp,\n            elongation: elong,\n            temperature: data.temperature,\n            alarmMm: ALARM_MM,\n            warnMm: WARN_MM\n        }\n    };\n    msg.topic = 'facade/joint/alarm';\n    return msg;\n}\nreturn null;",
+        "func": "const data = msg.payload;\nif (!data || data.displacement === undefined) return null;\n\n// ค่าจาก TDS จริง\n// Design limit: ±50% × 10mm = 5mm (ASTM C719 Class 50)\n// Ultimate elongation: 400% × 10mm = 40mm (ASTM C1135)\nconst ALARM_MM        = data.alarmMm        || 5.0;   // เกิน design limit\nconst WARN_MM         = data.warnMm         || 4.0;   // 80% of design limit\nconst ULTIMATE_MM     = data.ultimateElongMm || 40.0; // absolute material limit\nconst DESIGN_MOVE_MM  = data.designMoveMm   || 5.0;\n\nconst disp  = data.displacement;\nconst elong = data.elongation;\nconst designUsedPct = data.designUsedPct || \n                      parseFloat(((disp / DESIGN_MOVE_MM) * 100).toFixed(1));\n\nlet level   = 'OK';\nlet message = '';\n\nif (disp >= ULTIMATE_MM) {\n    // เกิน ultimate elongation — อันตรายสูงสุด\n    level   = 'CRITICAL';\n    message = '🔴 CRITICAL FAILURE RISK — Sensor ' + data.sensorId +\n              ' (Zone ' + data.zone + ', Floor ' + data.floor + 'F)\\n' +\n              'Displacement: ' + disp.toFixed(2) + 'mm' +\n              ' | Elongation: ' + elong + '%\\n' +\n              'เกิน Ultimate Elongation 400% (' + ULTIMATE_MM + 'mm)\\n' +\n              'ตาม ASTM C1135 — ความเสี่ยงสูงสุด ต้องเปลี่ยน sealant ทันที!';\n\n} else if (disp >= ALARM_MM) {\n    // เกิน design movement limit ±50%\n    level   = 'ALARM';\n    message = '🚨 ALARM — Sensor ' + data.sensorId +\n              ' (Zone ' + data.zone + ', Floor ' + data.floor + 'F)\\n' +\n              'Displacement: ' + disp.toFixed(2) + 'mm' +\n              ' (' + designUsedPct + '% of design limit)\\n' +\n              'เกินขีดจำกัดออกแบบ ±50% = ' + ALARM_MM + 'mm\\n' +\n              'ตาม ASTM C719 Class 50 — ต้องตรวจสอบและประเมินทันที!';\n\n} else if (disp >= WARN_MM) {\n    // 80% ของ design limit\n    level   = 'WARNING';\n    message = '⚠️ WARNING — Sensor ' + data.sensorId +\n              ' (Zone ' + data.zone + ', Floor ' + data.floor + 'F)\\n' +\n              'Displacement: ' + disp.toFixed(2) + 'mm' +\n              ' (' + designUsedPct + '% of design limit)\\n' +\n              'เข้าสู่โซนเฝ้าระวัง (>80% of ±50% design limit)\\n' +\n              'กำหนดการตรวจสอบเพิ่มเติม';\n}\n\nif (level !== 'OK') {\n    msg.payload = {\n        level:    level,\n        message:  message,\n        sensor:   data.sensorId,\n        zone:     data.zone,\n        floor:    data.floor,\n        timestamp: data.timestamp,\n        values: {\n            displacement:   disp,\n            elongation:     elong,\n            designUsedPct:  designUsedPct,\n            temperature:    data.temperature,\n            designMoveMm:   DESIGN_MOVE_MM,\n            alarmMm:        ALARM_MM,\n            ultimateMm:     ULTIMATE_MM\n        }\n    };\n    msg.topic = 'facade/joint/alarm';\n    return msg;\n}\nreturn null;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
+        "x": 1060,
         "y": 320,
         "wires": [
             [
@@ -123,8 +552,8 @@
         "id": "7f776bfcdd08379a",
         "type": "function",
         "z": "bf0b092fe846c588",
-        "name": "Prepare Dual-Axis Chart Data",
-        "func": "const data = msg.payload;\nif (!data || data.temperature === undefined) return null;\n\nconst ALARM_MM = 40;   // 400% × 10mm\nconst WARN_MM = 24;   // 240% × 10mm\n\nconst ts = new Date(data.timestamp || Date.now());\nconst hh = ts.getHours().toString().padStart(2, '0');\nconst mm2 = ts.getMinutes().toString().padStart(2, '0');\nconst ss = ts.getSeconds().toString().padStart(2, '0');\n\nconst disp = data.displacement;\nconst elong = data.elongation;\n\nlet alertCount = context.get('alertCount') || 0;\nif (disp >= ALARM_MM) {\n    alertCount++;\n    context.set('alertCount', alertCount);\n}\n\nlet dispBadge = 'Within Limit';\nlet elongBadge = 'Safe';\nlet alertBadge = 'No Alarm';\n\nif (disp >= ALARM_MM) {\n    dispBadge = 'ALARM';\n    elongBadge = 'CRITICAL';\n    alertBadge = 'ALARM';\n} else if (disp >= WARN_MM) {\n    dispBadge = 'WARNING';\n    elongBadge = 'Caution';\n    alertBadge = alertCount > 0 ? alertCount + ' events' : 'No Alarm';\n}\n\nmsg.payload = JSON.stringify({\n    type: 'update',\n    chart: {\n        label: hh + ':' + mm2 + ':' + ss,\n        temperature: data.temperature,\n        displacement: disp,\n        elongation: elong,\n        alarmFlag: disp >= ALARM_MM,\n        warnFlag: disp >= WARN_MM\n    },\n    table: msg.readings || [],\n    metrics: {\n        temperature: data.temperature,\n        displacement: disp,\n        elongation: elong,\n        alertCount: alertCount,\n        dispBadge: dispBadge,\n        elongBadge: elongBadge,\n        alertBadge: alertBadge,\n        alarmMm: ALARM_MM,\n        warnMm: WARN_MM\n    }\n});\nmsg.topic = 'chartPoint';\nreturn msg;",
+        "name": "Prepare Dual-Axis Chart Data & Table Data",
+        "func": "const data = msg.payload;\nif (!data || data.temperature === undefined) return null;\n\n// Thresholds จาก TDS จริง\nconst JOINT_W     = data.jointWidthMm   || 10;\nconst DESIGN_MM   = data.designMoveMm   || 5.0;   // ±50% × 10mm\nconst ALARM_MM    = data.alarmMm        || 5.0;   // ASTM C719\nconst WARN_MM     = data.warnMm         || 4.0;   // 80% of design\nconst ULTIMATE_MM = data.ultimateElongMm || 40.0; // 400% ASTM C1135\n\nconst ts  = new Date(data.timestamp || Date.now());\nconst hh  = ts.getHours().toString().padStart(2,'0');\nconst mm2 = ts.getMinutes().toString().padStart(2,'0');\nconst ss  = ts.getSeconds().toString().padStart(2,'0');\n\nconst disp          = data.displacement;\nconst elong         = data.elongation;\nconst designUsedPct = data.designUsedPct ||\n                      parseFloat(((disp / DESIGN_MM) * 100).toFixed(1));\n\n// Alert count — สะสมเฉพาะ ALARM ขึ้นไป\nlet alertCount = context.get('alertCount') || 0;\nif (disp >= ALARM_MM) {\n    alertCount++;\n    context.set('alertCount', alertCount);\n}\n\n// Badge logic ตาม TDS\nlet dispBadge  = 'Within Limit';\nlet elongBadge = 'Safe';\nlet alertBadge = 'No Alarm';\n\nif (disp >= ULTIMATE_MM) {\n    dispBadge  = 'CRITICAL';\n    elongBadge = 'FAILURE RISK';\n    alertBadge = 'CRITICAL';\n} else if (disp >= ALARM_MM) {\n    dispBadge  = 'ALARM';\n    elongBadge = 'Exceeds ±50%';\n    alertBadge = 'ALARM';\n} else if (disp >= WARN_MM) {\n    dispBadge  = 'WARNING';\n    elongBadge = '>80% of limit';\n    alertBadge = alertCount > 0 ? alertCount + ' events' : 'No Alarm';\n}\n\nmsg.payload = JSON.stringify({\n    type: 'update',\n    chart: {\n        label:          hh + ':' + mm2 + ':' + ss,\n        temperature:    data.temperature,\n        displacement:   disp,\n        elongation:     elong,\n        designUsedPct:  designUsedPct,\n        alarmFlag:      disp >= ALARM_MM,\n        warnFlag:       disp >= WARN_MM,\n        criticalFlag:   disp >= ULTIMATE_MM\n    },\n    table: msg.readings || [],\n    metrics: {\n        temperature:    data.temperature,\n        displacement:   disp,\n        elongation:     elong,\n        designUsedPct:  designUsedPct,\n        alertCount:     alertCount,\n        dispBadge:      dispBadge,\n        elongBadge:     elongBadge,\n        alertBadge:     alertBadge,\n        // TDS reference — ส่งไป dashboard ด้วย\n        designMoveMm:   DESIGN_MM,\n        alarmMm:        ALARM_MM,\n        warnMm:         WARN_MM,\n        ultimateMm:     ULTIMATE_MM,\n        jointWidthMm:   JOINT_W\n    }\n});\n\nmsg.topic = 'chartPoint';\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -135,8 +564,8 @@
         "y": 460,
         "wires": [
             [
-                "7fcccc7caee5fa58",
-                "888192268d43f10b"
+                "888192268d43f10b",
+                "7fcccc7caee5fa58"
             ]
         ]
     },
@@ -152,7 +581,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1430,
+        "x": 1370,
         "y": 360,
         "wires": [
             [
@@ -174,7 +603,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1690,
+        "x": 1630,
         "y": 380,
         "wires": []
     },
@@ -191,7 +620,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1400,
+        "x": 1340,
         "y": 300,
         "wires": []
     },
@@ -208,7 +637,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1060,
+        "x": 1020,
         "y": 160,
         "wires": []
     },
@@ -230,7 +659,7 @@
         "raw": false,
         "className": "",
         "name": "",
-        "x": 1690,
+        "x": 1630,
         "y": 320,
         "wires": [
             []
@@ -243,7 +672,7 @@
         "name": "",
         "server": "165b92b632a5f741",
         "client": "",
-        "x": 1400,
+        "x": 1420,
         "y": 460,
         "wires": []
     },
@@ -252,97 +681,24 @@
         "type": "ui_template",
         "z": "bf0b092fe846c588",
         "group": "ui-group-chart",
-        "name": "",
+        "name": "Dashboard Chart Table Control",
         "order": 0,
         "width": 0,
         "height": 0,
-        "format": "<style>\n    .fio-wrap {\n        font-family: sans-serif;\n        background: #fff;\n        padding: 14px;\n        border-radius: 8px;\n    }\n\n    .metric-row {\n        display: grid;\n        grid-template-columns: repeat(4, 1fr);\n        gap: 10px;\n        margin-bottom: 14px;\n    }\n\n    .metric-card {\n        background: #f9fafb;\n        border-radius: 8px;\n        padding: 10px 14px;\n    }\n\n    .m-label {\n        font-size: 11px;\n        color: #6b7280;\n        margin-bottom: 4px;\n    }\n\n    .m-value {\n        font-size: 22px;\n        font-weight: 500;\n        color: #111;\n    }\n\n    .m-unit {\n        font-size: 11px;\n        color: #6b7280;\n    }\n\n    .badge {\n        margin-top: 5px;\n        font-size: 11px;\n        padding: 2px 8px;\n        border-radius: 4px;\n        display: inline-block;\n        font-weight: 500;\n    }\n\n    .ok {\n        background: #dcfce7;\n        color: #16a34a;\n    }\n\n    .warn {\n        background: #fef9c3;\n        color: #ca8a04;\n    }\n\n    .danger {\n        background: #fee2e2;\n        color: #dc2626;\n    }\n\n    .chart-hdr {\n        display: flex;\n        align-items: center;\n        justify-content: space-between;\n        margin-bottom: 6px;\n        flex-wrap: wrap;\n        gap: 6px;\n    }\n\n    .chart-title {\n        font-size: 13px;\n        font-weight: 500;\n        color: #111;\n    }\n\n    .legend {\n        display: flex;\n        gap: 14px;\n        flex-wrap: wrap;\n    }\n\n    .leg-item {\n        display: flex;\n        align-items: center;\n        gap: 5px;\n        font-size: 11px;\n        color: #555;\n    }\n\n    .leg-line {\n        width: 18px;\n        height: 3px;\n        border-radius: 2px;\n    }\n\n    .status-bar {\n        font-size: 12px;\n        margin-bottom: 8px;\n        display: flex;\n        align-items: center;\n        gap: 6px;\n    }\n\n    .live-dot {\n        width: 8px;\n        height: 8px;\n        border-radius: 50%;\n        background: #d1d5db;\n        flex-shrink: 0;\n    }\n\n    .tbl-wrap {\n        margin-top: 16px;\n    }\n\n    .tbl-label {\n        font-size: 11px;\n        font-weight: 600;\n        letter-spacing: .08em;\n        color: #6b7280;\n        margin-bottom: 8px;\n    }\n\n    .sns-tbl {\n        width: 100%;\n        border-collapse: collapse;\n        font-size: 13px;\n    }\n\n    .sns-tbl th {\n        text-align: left;\n        padding: 5px 8px;\n        color: #374151;\n        font-weight: 500;\n        border-bottom: 1.5px solid #e5e7eb;\n    }\n\n    .sns-tbl td {\n        padding: 6px 8px;\n        border-bottom: 1px solid #f3f4f6;\n    }\n\n    .ctrl-bar {\n        display: flex;\n        align-items: center;\n        gap: 10px;\n        flex-wrap: wrap;\n        padding: 8px 12px;\n        background: #f3f4f6;\n        border-radius: 8px;\n        margin-top: 14px;\n    }\n\n    .ctrl-lbl {\n        font-size: 12px;\n        color: #374151;\n    }\n\n    .ctrl-btn {\n        font-size: 12px;\n        padding: 4px 14px;\n        border: 1px solid #d1d5db;\n        border-radius: 6px;\n        cursor: pointer;\n    }\n\n    .btn-active {\n        background: #111;\n        color: #fff;\n    }\n\n    .btn-idle {\n        background: #fff;\n        color: #111;\n    }\n</style>\n\n<div class=\"fio-wrap\">\n\n    <!-- ① Metric Cards -->\n    <div class=\"metric-row\">\n        <div class=\"metric-card\">\n            <div class=\"m-label\">🌡 Temperature</div>\n            <div><span class=\"m-value\" id=\"mTemp\">—</span><span class=\"m-unit\"> °C</span></div>\n            <div class=\"badge ok\" id=\"bTemp\">Normal</div>\n        </div>\n        <div class=\"metric-card\">\n            <div class=\"m-label\">↔ Displacement</div>\n            <div><span class=\"m-value\" id=\"mDisp\">—</span><span class=\"m-unit\"> mm</span></div>\n            <div class=\"badge ok\" id=\"bDisp\">Within Limit</div>\n        </div>\n        <div class=\"metric-card\">\n            <div class=\"m-label\">% Elongation Used</div>\n            <div><span class=\"m-value\" id=\"mElong\">—</span><span class=\"m-unit\"> %</span></div>\n            <div class=\"badge ok\" id=\"bElong\">Safe</div>\n        </div>\n        <div class=\"metric-card\">\n            <div class=\"m-label\">⚠ Alert Count</div>\n            <div><span class=\"m-value\" id=\"mAlert\">0</span><span class=\"m-unit\"> events</span></div>\n            <div class=\"badge ok\" id=\"bAlert\">No Alarm</div>\n        </div>\n    </div>\n\n    <!-- ② Chart -->\n    <div class=\"chart-hdr\">\n        <span class=\"chart-title\">Real-time: Temperature vs. Joint Displacement (Dual-Axis)</span>\n        <div class=\"legend\">\n            <span class=\"leg-item\"><span class=\"leg-line\" style=\"background:#ef4444\"></span>Temp (°C) — left</span>\n            <span class=\"leg-item\"><span class=\"leg-line\" style=\"background:#3b82f6\"></span>Displacement (mm) —\n            right</span>\n            <span class=\"leg-item\"><span class=\"leg-line\" style=\"background:#ef4444;border-top:2px dashed #ef4444;height:0\"></span>Alarm\n            limit</span>\n        </div>\n    </div>\n    <div class=\"status-bar\">\n        <span class=\"live-dot\" id=\"liveDot\"></span>\n        <span id=\"liveText\" style=\"color:#6b7280;\">Connecting...</span>\n    </div>\n    <div style=\"position:relative;width:100%;height:300px;\">\n        <canvas id=\"dualChart\"></canvas>\n    </div>\n\n    <!-- ③ Sensor Table -->\n    <div class=\"tbl-wrap\">\n        <div class=\"tbl-label\">SENSOR NETWORK STATUS</div>\n        <table class=\"sns-tbl\">\n            <thead>\n                <tr>\n                    <th>Sensor ID</th>\n                    <th>Zone</th>\n                    <th>Floor</th>\n                    <th>Temp (°C)</th>\n                    <th>Displacement (mm)</th>\n                    <th>Elongation</th>\n                    <th>Status</th>\n                </tr>\n            </thead>\n            <tbody id=\"snsTbody\">\n                <tr>\n                    <td colspan=\"7\" style=\"padding:14px;color:#9ca3af;text-align:center;\">Waiting for data...</td>\n                </tr>\n            </tbody>\n        </table>\n        <div id=\"tblTs\" style=\"font-size:11px;color:#9ca3af;margin-top:4px;text-align:right;\"></div>\n    </div>\n\n    <!-- ④ Control Bar -->\n    <div class=\"ctrl-bar\">\n        <span class=\"ctrl-lbl\">▷ Simulation</span>\n        <button id=\"btnStop\" class=\"ctrl-btn btn-active\" onclick=\"toggleSim()\">Stop</button>\n        <button class=\"ctrl-btn btn-idle\" onclick=\"doClear()\">Clear</button>\n        <span class=\"ctrl-lbl\" style=\"margin-left:6px;\">Interval:</span>\n        <button id=\"iv2\"  class=\"ctrl-btn btn-active\" onclick=\"setIv(2000,'iv2')\">2s</button>\n        <button id=\"iv5\"  class=\"ctrl-btn btn-idle\"   onclick=\"setIv(5000,'iv5')\">5s</button>\n        <button id=\"iv10\" class=\"ctrl-btn btn-idle\"   onclick=\"setIv(10000,'iv10')\">10s</button>\n        <span class=\"ctrl-lbl\" style=\"margin-left:6px;\">\n      Topic: <code style=\"background:#e5e7eb;padding:1px 6px;border-radius:4px;font-size:11px;\">facade/joint/data</code>\n    </span>\n    </div>\n\n</div>\n\n<script>\n    (function() {\n  /* ---- constants ---- */\n  var MAX     = 50;\n  var JW      = 10;\n  var ALARM_D = 40;\n  var WARN_D  = 24;\n\n  /* ---- state ---- */\n  var chart      = null;\n  var ws         = null;\n  var running    = true;\n  var currentIv  = 2000;\n  var alertTotal = 0;\n  var simTimer   = null;\n\n  /* ---- badge ---- */\n  function setBadge(id, text, cls) {\n    var el = document.getElementById(id);\n    if (!el) return;\n    el.textContent = text;\n    el.className   = 'badge ' + cls;\n  }\n\n  /* ---- update metric cards ---- */\n  function updateMetrics(d) {\n    var mT = document.getElementById('mTemp');\n    var mD = document.getElementById('mDisp');\n    var mE = document.getElementById('mElong');\n    var mA = document.getElementById('mAlert');\n    if (mT) mT.textContent = parseFloat(d.temperature).toFixed(1);\n    if (mD) mD.textContent = parseFloat(d.displacement).toFixed(2);\n    if (mE) mE.textContent = parseFloat(d.elongation).toFixed(1);\n\n    setBadge('bTemp', parseFloat(d.temperature).toFixed(1) + ' °C', 'ok');\n\n    var disp = parseFloat(d.displacement);\n    if (disp >= ALARM_D) {\n      alertTotal++;\n      setBadge('bDisp',  'ALARM',    'danger');\n      setBadge('bElong', 'CRITICAL', 'danger');\n      setBadge('bAlert', 'ALARM',    'danger');\n    } else if (disp >= WARN_D) {\n      setBadge('bDisp',  'WARNING',  'warn');\n      setBadge('bElong', 'Caution',  'warn');\n      setBadge('bAlert', alertTotal > 0 ? alertTotal + ' events' : 'No Alarm',\n               alertTotal > 0 ? 'warn' : 'ok');\n    } else {\n      setBadge('bDisp',  'Within Limit', 'ok');\n      setBadge('bElong', parseFloat(d.elongation).toFixed(1) + '%', 'ok');\n      setBadge('bAlert', alertTotal > 0 ? alertTotal + ' events' : 'No Alarm',\n               alertTotal > 0 ? 'warn' : 'ok');\n    }\n    if (mA) mA.textContent = alertTotal;\n  }\n\n  /* ---- status bar ---- */\n  function updateStatus(d) {\n    var dot  = document.getElementById('liveDot');\n    var text = document.getElementById('liveText');\n    if (!dot || !text) return;\n    var disp = parseFloat(d.displacement);\n    if (disp >= ALARM_D) {\n      dot.style.background = '#ef4444'; text.style.color = '#ef4444';\n      text.textContent = '🚨 ALARM — Displacement ' + disp.toFixed(2) +\n                         'mm (Elongation ' + d.elongation + '%) เกินขีดจำกัด 400%!';\n    } else if (disp >= WARN_D) {\n      dot.style.background = '#f59e0b'; text.style.color = '#f59e0b';\n      text.textContent = '⚠ WARNING — Displacement ' + disp.toFixed(2) +\n                         'mm (Elongation ' + d.elongation + '%)';\n    } else {\n      dot.style.background = '#22c55e'; text.style.color = '#22c55e';\n      text.textContent = '● Live  |  Temp: ' + parseFloat(d.temperature).toFixed(1) +\n                         '°C  |  Disp: ' + parseFloat(d.displacement).toFixed(2) +\n                         'mm  |  Elong: ' + d.elongation + '%';\n    }\n  }\n\n  /* ---- push chart point ---- */\n  function pushChart(d) {\n    if (!chart || !d) return;\n    chart.data.labels.push(d.label);\n    chart.data.datasets[0].data.push(parseFloat(d.temperature));\n    chart.data.datasets[1].data.push(parseFloat(d.displacement));\n    if (chart.data.labels.length > MAX) {\n      chart.data.labels.shift();\n      chart.data.datasets[0].data.shift();\n      chart.data.datasets[1].data.shift();\n    }\n    chart.data.datasets[2].data = chart.data.labels.map(function(){ return ALARM_D; });\n    chart.data.datasets[3].data = chart.data.labels.map(function(){ return WARN_D;  });\n    chart.update();\n  }\n\n  /* ---- render table ---- */\n  function renderTable(rows) {\n    var tbody = document.getElementById('snsTbody');\n    if (!tbody || !rows || !rows.length) return;\n    function dc(v){ return v>=ALARM_D?'#ef4444':v>=WARN_D?'#f59e0b':'#111'; }\n    function st(v){\n      if(v>=ALARM_D) return '<span style=\"color:#ef4444;font-weight:500;\">● ALARM</span>';\n      if(v>=WARN_D)  return '<span style=\"color:#f59e0b;font-weight:500;\">● Caution</span>';\n      return '<span style=\"color:#22c55e;\">● OK</span>';\n    }\n    tbody.innerHTML = rows.map(function(r,i){\n      var d = parseFloat(r.displacement);\n      return '<tr style=\"background:'+(i%2?'#f9fafb':'#fff')+';border-bottom:1px solid #f3f4f6;\">'+\n        '<td style=\"padding:6px 8px;font-family:monospace;font-size:12px;\">'+r.sensorId+'</td>'+\n        '<td style=\"padding:6px 8px;\">'+r.zone+'</td>'+\n        '<td style=\"padding:6px 8px;\">'+r.floor+'F</td>'+\n        '<td style=\"padding:6px 8px;\">'+parseFloat(r.temperature).toFixed(1)+'</td>'+\n        '<td style=\"padding:6px 8px;color:'+dc(d)+';font-weight:500;\">'+d.toFixed(2)+'</td>'+\n        '<td style=\"padding:6px 8px;color:'+dc(d)+';\">'+r.elongation+'%</td>'+\n        '<td style=\"padding:6px 8px;\">'+st(d)+'</td>'+\n      '</tr>';\n    }).join('');\n    var ts = document.getElementById('tblTs');\n    if (ts) ts.textContent = 'Updated: ' + new Date().toLocaleTimeString('th-TH');\n  }\n\n  /* ---- build chart ---- */\n  function buildChart() {\n    if (chart) return;\n    var c = document.getElementById('dualChart');\n    if (!c) return;\n    chart = new Chart(c.getContext('2d'), {\n      type: 'line',\n      data: {\n        labels: [],\n        datasets: [\n          { label:'Temperature (°C)', data:[], yAxisID:'yL',\n            borderColor:'#ef4444', backgroundColor:'rgba(0,0,0,0)',\n            borderWidth:2, pointRadius:3, fill:false, lineTension:0.4 },\n          { label:'Displacement (mm)', data:[], yAxisID:'yR',\n            borderColor:'#3b82f6', backgroundColor:'rgba(0,0,0,0)',\n            borderWidth:2, pointRadius:3, fill:false, lineTension:0.4 },\n          { label:'Alarm 400% (40mm)', data:[], yAxisID:'yR',\n            borderColor:'#ef4444', borderWidth:1.5, borderDash:[6,4],\n            pointRadius:0, fill:false },\n          { label:'Warning 240% (24mm)', data:[], yAxisID:'yR',\n            borderColor:'#f59e0b', borderWidth:1.5, borderDash:[4,4],\n            pointRadius:0, fill:false }\n        ]\n      },\n      options: {\n        responsive:true, maintainAspectRatio:false,\n        animation:{ duration:150 },\n        legend:{ position:'top', labels:{ fontSize:11 } },\n        tooltips:{ mode:'index', intersect:false },\n        scales:{\n          xAxes:[{ ticks:{ maxTicksLimit:8, maxRotation:0, fontSize:10 } }],\n          yAxes:[\n            { id:'yL', position:'left',\n              scaleLabel:{ display:true, labelString:'Temperature (°C)', fontColor:'#ef4444', fontSize:11 },\n              ticks:{ min:10, max:55, fontColor:'#ef4444', fontSize:10 } },\n            { id:'yR', position:'right',\n              gridLines:{ drawOnChartArea:false },\n              scaleLabel:{ display:true, labelString:'Displacement (mm)', fontColor:'#3b82f6', fontSize:11 },\n              ticks:{ min:0, max:50, fontColor:'#3b82f6', fontSize:10,\n                callback:function(v){ return v+'mm ('+((v/JW)*100).toFixed(0)+'%)'; } } }\n          ]\n        }\n      }\n    });\n  }\n\n  /* ---- controls ---- */\n  window.toggleSim = function() {\n    running = !running;\n    var btn = document.getElementById('btnStop');\n    if (btn) {\n      btn.textContent = running ? 'Stop' : 'Start';\n      btn.className   = 'ctrl-btn ' + (running ? 'btn-active' : 'btn-idle');\n    }\n    if (running) startSim(); else { if(simTimer) clearInterval(simTimer); }\n  };\n\n  window.doClear = function() {\n    alertTotal = 0;\n    ['mTemp','mDisp','mElong'].forEach(function(id){\n      var el=document.getElementById(id); if(el) el.textContent='—';\n    });\n    var mA=document.getElementById('mAlert'); if(mA) mA.textContent='0';\n    setBadge('bTemp','Normal','ok');\n    setBadge('bDisp','Within Limit','ok');\n    setBadge('bElong','Safe','ok');\n    setBadge('bAlert','No Alarm','ok');\n    if (chart) {\n      chart.data.labels=[];\n      chart.data.datasets.forEach(function(d){ d.data=[]; });\n      chart.update();\n    }\n  };\n\n  window.setIv = function(ms, id) {\n    currentIv = ms;\n    ['iv2','iv5','iv10'].forEach(function(bid){\n      var b=document.getElementById(bid);\n      if(b) b.className='ctrl-btn btn-idle';\n    });\n    var active=document.getElementById(id);\n    if(active) active.className='ctrl-btn btn-active';\n    if(running) startSim();\n  };\n\n  function startSim() {\n    if (simTimer) clearInterval(simTimer);\n    simTimer = setInterval(function(){\n      // inject ผ่าน Node-RED WebSocket Input node\n      if (ws && ws.readyState === 1) ws.send('inject');\n    }, currentIv);\n  }\n\n  /* ---- WebSocket ---- */\n  function connectWS() {\n    var host = window.location.hostname;\n    var port = window.location.port || 1880;\n    ws = new WebSocket('ws://' + host + ':' + port + '/ws/chart');\n\n    ws.onopen = function() {\n      var dot=document.getElementById('liveDot');\n      var txt=document.getElementById('liveText');\n      if(dot) dot.style.background='#f59e0b';\n      if(txt){ txt.style.color='#f59e0b'; txt.textContent='Connected — waiting for data...'; }\n      if(running) startSim();\n    };\n\n    ws.onmessage = function(e) {\n      try {\n        var pkt = JSON.parse(e.data);\n        if (pkt.type === 'update') {\n          if (pkt.chart)   { pushChart(pkt.chart); updateStatus(pkt.chart); updateMetrics(pkt.chart); }\n          if (pkt.table)   { renderTable(pkt.table); }\n        }\n      } catch(err) {}\n    };\n\n    ws.onclose = function() {\n      var txt=document.getElementById('liveText');\n      if(txt) txt.textContent='Reconnecting...';\n      setTimeout(connectWS, 3000);\n    };\n  }\n\n  /* ---- init ---- */\n  setTimeout(function(){ buildChart(); connectWS(); }, 500);\n})();\n</script>",
+        "format": "<style>\n  .fio-wrap {\n    font-family: sans-serif;\n    background: #fff;\n    padding: 14px;\n    border-radius: 8px;\n  }\n\n  .metric-row {\n    display: grid;\n    grid-template-columns: repeat(4, 1fr);\n    gap: 10px;\n    margin-bottom: 14px;\n  }\n\n  .metric-card {\n    background: #f9fafb;\n    border-radius: 8px;\n    padding: 10px 14px;\n  }\n\n  .m-label {\n    font-size: 11px;\n    color: #6b7280;\n    margin-bottom: 4px;\n  }\n\n  .m-value {\n    font-size: 22px;\n    font-weight: 500;\n    color: #111;\n  }\n\n  .m-unit {\n    font-size: 11px;\n    color: #6b7280;\n  }\n\n  .badge {\n    margin-top: 5px;\n    font-size: 11px;\n    padding: 2px 8px;\n    border-radius: 4px;\n    display: inline-block;\n    font-weight: 500;\n  }\n\n  .ok {\n    background: #dcfce7;\n    color: #16a34a;\n  }\n\n  .warn {\n    background: #fef9c3;\n    color: #ca8a04;\n  }\n\n  .danger {\n    background: #fee2e2;\n    color: #dc2626;\n  }\n\n  .critical {\n    background: #7f1d1d;\n    color: #fff;\n  }\n\n  .chart-hdr {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    margin-bottom: 6px;\n    flex-wrap: wrap;\n    gap: 6px;\n  }\n\n  .chart-title {\n    font-size: 13px;\n    font-weight: 500;\n    color: #111;\n  }\n\n  .legend {\n    display: flex;\n    gap: 14px;\n    flex-wrap: wrap;\n  }\n\n  .leg-item {\n    display: flex;\n    align-items: center;\n    gap: 5px;\n    font-size: 11px;\n    color: #555;\n  }\n\n  .leg-dot {\n    width: 18px;\n    height: 3px;\n    border-radius: 2px;\n    flex-shrink: 0;\n  }\n\n  .status-bar {\n    font-size: 12px;\n    margin-bottom: 8px;\n    display: flex;\n    align-items: center;\n    gap: 6px;\n  }\n\n  .live-dot {\n    width: 8px;\n    height: 8px;\n    border-radius: 50%;\n    background: #d1d5db;\n    flex-shrink: 0;\n  }\n\n  .tbl-wrap {\n    margin-top: 16px;\n  }\n\n  .tbl-label {\n    font-size: 11px;\n    font-weight: 600;\n    letter-spacing: .08em;\n    color: #6b7280;\n    margin-bottom: 8px;\n  }\n\n  .sns-tbl {\n    width: 100%;\n    border-collapse: collapse;\n    font-size: 13px;\n  }\n\n  .sns-tbl th {\n    text-align: left;\n    padding: 5px 8px;\n    color: #374151;\n    font-weight: 500;\n    border-bottom: 1.5px solid #e5e7eb;\n  }\n\n  .sns-tbl td {\n    padding: 6px 8px;\n    border-bottom: 1px solid #f3f4f6;\n  }\n\n  .ctrl-bar {\n    display: flex;\n    align-items: center;\n    gap: 10px;\n    flex-wrap: wrap;\n    padding: 8px 12px;\n    background: #f3f4f6;\n    border-radius: 8px;\n    margin-top: 14px;\n  }\n\n  .ctrl-lbl {\n    font-size: 12px;\n    color: #374151;\n  }\n\n  .ctrl-btn {\n    font-size: 12px;\n    padding: 4px 14px;\n    border: 1px solid #d1d5db;\n    border-radius: 6px;\n    cursor: pointer;\n  }\n\n  .btn-active {\n    background: #111;\n    color: #fff;\n  }\n\n  .btn-idle {\n    background: #fff;\n    color: #111;\n  }\n\n  /* TDS reference bar */\n  .tds-ref {\n    font-size: 11px;\n    color: #6b7280;\n    background: #f9fafb;\n    border: 1px solid #e5e7eb;\n    border-radius: 6px;\n    padding: 6px 12px;\n    margin-bottom: 10px;\n    display: flex;\n    gap: 18px;\n    flex-wrap: wrap;\n  }\n\n  .tds-ref span {\n    white-space: nowrap;\n  }\n\n  .tds-ref b {\n    color: #374151;\n  }\n</style>\n\n<div class=\"fio-wrap\">\n\n  <!-- TDS Reference Bar -->\n  <div class=\"tds-ref\">\n    <span>📄 <b>DOWSIL 795 TDS</b></span>\n    <span>Joint width: <b>10 mm</b></span>\n    <span>Design limit (ASTM C719): <b>±50% = ±5 mm</b></span>\n    <span>Warning: <b>&gt;4 mm (80%)</b></span>\n    <span>Alarm: <b>&gt;5 mm (100%)</b></span>\n    <span>Ultimate elongation (ASTM C1135): <b>400% = 40 mm</b></span>\n  </div>\n\n  <!-- ① Metric Cards -->\n  <div class=\"metric-row\">\n    <div class=\"metric-card\">\n      <div class=\"m-label\">🌡 Temperature</div>\n      <div><span class=\"m-value\" id=\"mTemp\">—</span><span class=\"m-unit\"> °C</span></div>\n      <div class=\"badge ok\" id=\"bTemp\">—</div>\n    </div>\n    <div class=\"metric-card\">\n      <div class=\"m-label\">↔ Displacement</div>\n      <div><span class=\"m-value\" id=\"mDisp\">—</span><span class=\"m-unit\"> mm</span></div>\n      <div class=\"badge ok\" id=\"bDisp\">Within Limit</div>\n    </div>\n    <div class=\"metric-card\">\n      <div class=\"m-label\">% of Design Limit Used</div>\n      <div><span class=\"m-value\" id=\"mElong\">—</span><span class=\"m-unit\"> %</span></div>\n      <div class=\"badge ok\" id=\"bElong\">Safe</div>\n    </div>\n    <div class=\"metric-card\">\n      <div class=\"m-label\">⚠ Alert Count</div>\n      <div><span class=\"m-value\" id=\"mAlert\">0</span><span class=\"m-unit\"> events</span></div>\n      <div class=\"badge ok\" id=\"bAlert\">No Alarm</div>\n    </div>\n  </div>\n\n  <!-- ② Chart -->\n  <div class=\"chart-hdr\">\n    <span class=\"chart-title\">Real-time: Temperature vs. Joint Displacement (Dual-Axis)</span>\n    <div class=\"legend\">\n      <span class=\"leg-item\">\n        <span class=\"leg-dot\" style=\"background:#ef4444;\"></span>Temp (°C) — left\n      </span>\n      <span class=\"leg-item\">\n        <span class=\"leg-dot\" style=\"background:#3b82f6;\"></span>Displacement (mm) — right\n      </span>\n      <span class=\"leg-item\">\n        <span class=\"leg-dot\" style=\"background:#ef4444;border-top:2px dashed #ef4444;height:0;\"></span>\n      Alarm ±50% (5mm)\n      </span>\n      <span class=\"leg-item\">\n        <span class=\"leg-dot\" style=\"background:#f59e0b;border-top:2px dashed #f59e0b;height:0;\"></span>\n      Warning 80% (4mm)\n      </span>\n    </div>\n  </div>\n\n  <div class=\"status-bar\">\n    <span class=\"live-dot\" id=\"liveDot\"></span>\n    <span id=\"liveText\" style=\"color:#6b7280;\">Connecting...</span>\n  </div>\n\n  <div style=\"position:relative;width:100%;height:280px;\">\n    <canvas id=\"dualChart\"></canvas>\n  </div>\n\n  <!-- ③ Sensor Table -->\n  <div class=\"tbl-wrap\">\n    <div class=\"tbl-label\">SENSOR NETWORK STATUS</div>\n    <table class=\"sns-tbl\">\n      <thead>\n        <tr>\n          <th>Sensor ID</th>\n          <th>Zone</th>\n          <th>Floor</th>\n          <th>Temp (°C)</th>\n          <th>Displacement (mm)</th>\n          <th>% of Design Limit</th>\n          <th>Status</th>\n        </tr>\n      </thead>\n      <tbody id=\"snsTbody\">\n        <tr>\n          <td colspan=\"7\" style=\"padding:14px;color:#9ca3af;text-align:center;\">\n            Waiting for data...\n          </td>\n        </tr>\n      </tbody>\n    </table>\n    <div id=\"tblTs\" style=\"font-size:11px;color:#9ca3af;margin-top:4px;text-align:right;\"></div>\n  </div>\n\n  <!-- ④ Control Bar -->\n  <div class=\"ctrl-bar\">\n    <span class=\"ctrl-lbl\">▷ Simulation</span>\n    <button id=\"btnStop\" class=\"ctrl-btn btn-active\" onclick=\"toggleSim()\">Stop</button>\n    <button class=\"ctrl-btn btn-idle\" onclick=\"doClear()\">Clear</button>\n    <span class=\"ctrl-lbl\" style=\"margin-left:6px;\">Interval:</span>\n    <button id=\"iv2\"  class=\"ctrl-btn btn-active\" onclick=\"setIv(2000,'iv2')\">2s</button>\n    <button id=\"iv5\"  class=\"ctrl-btn btn-idle\"   onclick=\"setIv(5000,'iv5')\">5s</button>\n    <button id=\"iv10\" class=\"ctrl-btn btn-idle\"   onclick=\"setIv(10000,'iv10')\">10s</button>\n    <span class=\"ctrl-lbl\" style=\"margin-left:6px;\">\n      Topic: <code style=\"background:#e5e7eb;padding:1px 6px;border-radius:4px;font-size:11px;\">\n        facade/joint/data\n      </code>\n    </span>\n  </div>\n\n</div>\n\n<script>\n  (function() {\n\n  /* ============================================\n     DOWSIL 795 TDS Constants (Form 63-1217-01)\n     ============================================\n     ASTM C719 Class 50 : ±50% movement = ±5mm (joint 10mm)\n     Warning             : 80% of design limit = 4mm\n     ASTM C1135 (21day)  : Ultimate elongation 400% = 40mm\n     ASTM D412  (7day)   : Elongation 670%\n  ============================================ */\n  var JW          = 10;     // joint width (mm)\n  var DESIGN_PCT  = 50;     // ±50% ASTM C719\n  var ALARM_D     = 5.0;    // ±50% × 10mm = 5mm  → ALARM\n  var WARN_D      = 4.0;    // 80% of 5mm  = 4mm  → WARNING\n  var ULTIMATE_D  = 40.0;   // 400% × 10mm = 40mm → CRITICAL\n  var MAX         = 40;     // max chart points\n\n  /* ---- state ---- */\n  var chart      = null;\n  var ws         = null;\n  var running    = true;\n  var currentIv  = 2000;\n  var alertTotal = 0;\n  var simTimer   = null;\n\n  /* ---- badge helper ---- */\n  function setBadge(id, text, cls) {\n    var el = document.getElementById(id);\n    if (!el) return;\n    el.textContent = text;\n    el.className   = 'badge ' + cls;\n  }\n\n  /* ---- metric cards ---- */\n  function updateMetrics(d) {\n    var mT = document.getElementById('mTemp');\n    var mD = document.getElementById('mDisp');\n    var mE = document.getElementById('mElong');\n    var mA = document.getElementById('mAlert');\n\n    var disp  = parseFloat(d.displacement);\n    var temp  = parseFloat(d.temperature);\n    // % of design limit (±5mm)\n    var usedPct = parseFloat(((disp / ALARM_D) * 100).toFixed(1));\n\n    if (mT) mT.textContent = temp.toFixed(1);\n    if (mD) mD.textContent = disp.toFixed(2);\n    if (mE) mE.textContent = usedPct.toFixed(1);\n\n    // Temperature — info only, no alarm colour\n    setBadge('bTemp', temp.toFixed(1) + ' °C', 'ok');\n\n    // Displacement + Design limit — alarm based ONLY on displacement vs TDS\n    if (disp >= ULTIMATE_D) {\n      alertTotal++;\n      setBadge('bDisp',  'CRITICAL',          'critical');\n      setBadge('bElong', '≥400% — Failure!',  'critical');\n      setBadge('bAlert', 'CRITICAL',           'critical');\n    } else if (disp >= ALARM_D) {\n      alertTotal++;\n      setBadge('bDisp',  'ALARM — Exceeds ±50%',   'danger');\n      setBadge('bElong', usedPct + '% of limit',    'danger');\n      setBadge('bAlert', 'ALARM',                   'danger');\n    } else if (disp >= WARN_D) {\n      setBadge('bDisp',  'WARNING — >80% limit',    'warn');\n      setBadge('bElong', usedPct + '% of limit',    'warn');\n      setBadge('bAlert',\n        alertTotal > 0 ? alertTotal + ' events' : 'No Alarm',\n        alertTotal > 0 ? 'warn' : 'ok');\n    } else {\n      setBadge('bDisp',  'Within Limit',  'ok');\n      setBadge('bElong', usedPct + '%',   'ok');\n      setBadge('bAlert',\n        alertTotal > 0 ? alertTotal + ' events' : 'No Alarm',\n        alertTotal > 0 ? 'warn' : 'ok');\n    }\n    if (mA) mA.textContent = alertTotal;\n  }\n\n  /* ---- status bar ---- */\n  function updateStatus(d) {\n    var dot  = document.getElementById('liveDot');\n    var text = document.getElementById('liveText');\n    if (!dot || !text) return;\n    var disp    = parseFloat(d.displacement);\n    var usedPct = ((disp / ALARM_D) * 100).toFixed(1);\n\n    if (disp >= ULTIMATE_D) {\n      dot.style.background = '#7f1d1d'; text.style.color = '#7f1d1d';\n      text.textContent = '🔴 CRITICAL — Displacement ' + disp.toFixed(2) +\n                         'mm เกิน Ultimate Elongation 400% (' + ULTIMATE_D + 'mm) — ต้องเปลี่ยน sealant ทันที!';\n    } else if (disp >= ALARM_D) {\n      dot.style.background = '#ef4444'; text.style.color = '#ef4444';\n      text.textContent = '🚨 ALARM — Displacement ' + disp.toFixed(2) +\n                         'mm (' + usedPct + '% of ±50% design limit)' +\n                         ' เกินขีดจำกัดออกแบบ ASTM C719 Class 50!';\n    } else if (disp >= WARN_D) {\n      dot.style.background = '#f59e0b'; text.style.color = '#f59e0b';\n      text.textContent = '⚠ WARNING — Displacement ' + disp.toFixed(2) +\n                         'mm (' + usedPct + '% of design limit) เข้าโซนเฝ้าระวัง';\n    } else {\n      dot.style.background = '#22c55e'; text.style.color = '#22c55e';\n      text.textContent = '● Live  |  Temp: ' + parseFloat(d.temperature).toFixed(1) +\n                         '°C  |  Disp: ' + disp.toFixed(2) +\n                         'mm  |  Design used: ' + usedPct + '%';\n    }\n  }\n\n  /* ---- push chart point ---- */\n  function pushChart(d) {\n    if (!chart || !d) return;\n    chart.data.labels.push(d.label);\n    chart.data.datasets[0].data.push(parseFloat(d.temperature));\n    chart.data.datasets[1].data.push(parseFloat(d.displacement));\n    if (chart.data.labels.length > MAX) {\n      chart.data.labels.shift();\n      chart.data.datasets[0].data.shift();\n      chart.data.datasets[1].data.shift();\n    }\n    // reference lines ตาม TDS\n    chart.data.datasets[2].data = chart.data.labels.map(function(){ return ALARM_D;    });\n    chart.data.datasets[3].data = chart.data.labels.map(function(){ return WARN_D;     });\n    chart.update();\n  }\n\n  /* ---- render table ---- */\n  function renderTable(rows) {\n    var tbody = document.getElementById('snsTbody');\n    if (!tbody || !rows || !rows.length) return;\n\n    function dc(v) {\n      return v >= ALARM_D ? '#ef4444' : v >= WARN_D ? '#f59e0b' : '#111';\n    }\n    function st(v) {\n      if (v >= ULTIMATE_D) return '<span style=\"color:#7f1d1d;font-weight:600;\">● CRITICAL</span>';\n      if (v >= ALARM_D)    return '<span style=\"color:#ef4444;font-weight:500;\">● ALARM</span>';\n      if (v >= WARN_D)     return '<span style=\"color:#f59e0b;font-weight:500;\">● Caution</span>';\n      return '<span style=\"color:#22c55e;\">● OK</span>';\n    }\n\n    tbody.innerHTML = rows.map(function(r, i) {\n      var d       = parseFloat(r.displacement);\n      var usedPct = ((d / ALARM_D) * 100).toFixed(1);\n      var bg      = i % 2 ? '#f9fafb' : '#fff';\n      return '<tr style=\"background:' + bg + ';border-bottom:1px solid #f3f4f6;\">' +\n        '<td style=\"padding:6px 8px;font-family:monospace;font-size:12px;\">' + r.sensorId + '</td>' +\n        '<td style=\"padding:6px 8px;\">' + r.zone + '</td>' +\n        '<td style=\"padding:6px 8px;\">' + r.floor + 'F</td>' +\n        '<td style=\"padding:6px 8px;\">' + parseFloat(r.temperature).toFixed(1) + '</td>' +\n        '<td style=\"padding:6px 8px;color:' + dc(d) + ';font-weight:500;\">' + d.toFixed(2) + '</td>' +\n        '<td style=\"padding:6px 8px;color:' + dc(d) + ';\">' + usedPct + '%</td>' +\n        '<td style=\"padding:6px 8px;\">' + st(d) + '</td>' +\n      '</tr>';\n    }).join('');\n\n    var ts = document.getElementById('tblTs');\n    if (ts) ts.textContent = 'Updated: ' + new Date().toLocaleTimeString('th-TH');\n  }\n\n  /* ---- build Chart.js 2.x ---- */\n  function buildChart() {\n    if (chart) return;\n    var c = document.getElementById('dualChart');\n    if (!c) return;\n\n    chart = new Chart(c.getContext('2d'), {\n      type: 'line',\n      data: {\n        labels: [],\n        datasets: [\n          {\n            label: 'Temperature (°C)',\n            data: [], yAxisID: 'yL',\n            borderColor: '#ef4444', backgroundColor: 'rgba(0,0,0,0)',\n            borderWidth: 2, pointRadius: 3, fill: false, lineTension: 0.4\n          },\n          {\n            label: 'Displacement (mm)',\n            data: [], yAxisID: 'yR',\n            borderColor: '#3b82f6', backgroundColor: 'rgba(0,0,0,0)',\n            borderWidth: 2, pointRadius: 3, fill: false, lineTension: 0.4\n          },\n          {\n            // ✅ แก้แล้ว: ±50% design limit ตาม ASTM C719\n            label: 'Alarm: ±50% design limit (5mm)',\n            data: [], yAxisID: 'yR',\n            borderColor: '#ef4444', borderWidth: 1.5, borderDash: [6, 4],\n            pointRadius: 0, fill: false\n          },\n          {\n            // ✅ แก้แล้ว: 80% of design limit\n            label: 'Warning: 80% of limit (4mm)',\n            data: [], yAxisID: 'yR',\n            borderColor: '#f59e0b', borderWidth: 1.5, borderDash: [4, 4],\n            pointRadius: 0, fill: false\n          }\n        ]\n      },\n      options: {\n        responsive: true,\n        maintainAspectRatio: false,\n        animation: { duration: 150 },\n        legend: { position: 'top', labels: { fontSize: 11 } },\n        tooltips: { mode: 'index', intersect: false },\n        scales: {\n          xAxes: [{\n            ticks: { maxTicksLimit: 8, maxRotation: 0, fontSize: 10, autoSkip: true }\n          }],\n          yAxes: [\n            {\n              id: 'yL',\n              position: 'left',\n              scaleLabel: {\n                display: true,\n                labelString: 'Temperature (°C)',\n                fontColor: '#ef4444', fontSize: 11\n              },\n              ticks: { min: 10, max: 55, fontColor: '#ef4444', fontSize: 10 }\n            },\n            {\n              id: 'yR',\n              position: 'right',\n              gridLines: { drawOnChartArea: false },\n              scaleLabel: {\n                display: true,\n                // ✅ แก้แล้ว: อธิบาย scale ตาม TDS\n                labelString: 'Displacement (mm) | Design limit ±5mm',\n                fontColor: '#3b82f6', fontSize: 11\n              },\n              ticks: {\n                // ✅ แก้แล้ว: max = 8mm (แสดงเกิน alarm เล็กน้อย)\n                min: 0, max: 8,\n                fontColor: '#3b82f6', fontSize: 10,\n                stepSize: 1,\n                callback: function(v) {\n                  var pct = ((v / ALARM_D) * 100).toFixed(0);\n                  return v + 'mm (' + pct + '%)';\n                }\n              }\n            }\n          ]\n        }\n      }\n    });\n  }\n\n  /* ---- controls ---- */\n  window.toggleSim = function() {\n    running = !running;\n    var btn = document.getElementById('btnStop');\n    if (btn) {\n      btn.textContent = running ? 'Stop' : 'Start';\n      btn.className   = 'ctrl-btn ' + (running ? 'btn-active' : 'btn-idle');\n    }\n    if (running) startSim();\n    else if (simTimer) clearInterval(simTimer);\n  };\n\n  window.doClear = function() {\n    alertTotal = 0;\n    ['mTemp','mDisp','mElong'].forEach(function(id) {\n      var el = document.getElementById(id); if (el) el.textContent = '—';\n    });\n    var mA = document.getElementById('mAlert'); if (mA) mA.textContent = '0';\n    setBadge('bTemp',  '—',            'ok');\n    setBadge('bDisp',  'Within Limit', 'ok');\n    setBadge('bElong', 'Safe',         'ok');\n    setBadge('bAlert', 'No Alarm',     'ok');\n    if (chart) {\n      chart.data.labels = [];\n      chart.data.datasets.forEach(function(d) { d.data = []; });\n      chart.update();\n    }\n  };\n\n  window.setIv = function(ms, id) {\n    currentIv = ms;\n    ['iv2','iv5','iv10'].forEach(function(bid) {\n      var b = document.getElementById(bid);\n      if (b) b.className = 'ctrl-btn btn-idle';\n    });\n    var active = document.getElementById(id);\n    if (active) active.className = 'ctrl-btn btn-active';\n    if (running) startSim();\n  };\n\n  function startSim() {\n    if (simTimer) clearInterval(simTimer);\n    simTimer = setInterval(function() {\n      if (ws && ws.readyState === 1) ws.send('inject');\n    }, currentIv);\n  }\n\n  /* ---- WebSocket ---- */\n  function connectWS() {\n    var host = window.location.hostname;\n    var port = window.location.port || 1880;\n    ws = new WebSocket('ws://' + host + ':' + port + '/ws/chart');\n\n    ws.onopen = function() {\n      var dot = document.getElementById('liveDot');\n      var txt = document.getElementById('liveText');\n      if (dot) dot.style.background = '#f59e0b';\n      if (txt) { txt.style.color = '#f59e0b'; txt.textContent = 'Connected — waiting for data...'; }\n      if (running) startSim();\n    };\n\n    ws.onmessage = function(e) {\n      try {\n        var pkt = JSON.parse(e.data);\n        if (pkt.type === 'update') {\n          if (pkt.chart) { pushChart(pkt.chart); updateStatus(pkt.chart); updateMetrics(pkt.chart); }\n          if (pkt.table) { renderTable(pkt.table); }\n        }\n      } catch (err) {}\n    };\n\n    ws.onclose = function() {\n      var txt = document.getElementById('liveText');\n      if (txt) txt.textContent = 'Reconnecting...';\n      setTimeout(connectWS, 3000);\n    };\n  }\n\n  /* ---- init ---- */\n  setTimeout(function() { buildChart(); connectWS(); }, 500);\n\n})();\n</script>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 1380,
-        "y": 560,
+        "x": 1470,
+        "y": 520,
         "wires": [
             []
         ]
     },
     {
-        "id": "mqtt-broker-local",
-        "type": "mqtt-broker",
-        "name": "test.mosquitto.org",
-        "broker": "test.mosquitto.org",
-        "port": "1883",
-        "clientid": "nodered-facade-monitor",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "autoUnsubscribe": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": "",
-        "willMsg": {},
-        "userProps": "",
-        "sessionExpiry": ""
-    },
-    {
-        "id": "b0a2066d9dfe8a1e",
-        "type": "ui-base",
-        "name": "My Dashboard",
-        "path": "/dashboard",
-        "appIcon": "",
-        "includeClientData": true,
-        "acceptsClientConfig": [
-            "ui-notification",
-            "ui-control"
-        ],
-        "showPathInSidebar": false,
-        "headerContent": "page",
-        "navigationStyle": "default",
-        "titleBarStyle": "default",
-        "showReconnectNotification": true,
-        "notificationDisplayTime": 1,
-        "showDisconnectNotification": true,
-        "allowInstall": false
-    },
-    {
-        "id": "165b92b632a5f741",
-        "type": "websocket-listener",
-        "path": "/ws/chart",
-        "wholemsg": "false"
-    },
-    {
-        "id": "ui-group-chart",
-        "type": "ui_group",
-        "name": "Joint Movement Monitor",
-        "tab": "ui-tab-main",
-        "order": 1,
-        "disp": true,
-        "width": 24,
-        "collapse": false,
-        "className": ""
-    },
-    {
-        "id": "ui-tab-main",
-        "type": "ui_tab",
-        "name": "Facade IoT Dashboard",
-        "icon": "dashboard",
-        "disabled": false,
-        "hidden": false
-    },
-    {
-        "id": "67e8ea4dc942c5bd",
+        "id": "44cc59b4183b8aa9",
         "type": "global-config",
         "env": [],
         "modules": {
